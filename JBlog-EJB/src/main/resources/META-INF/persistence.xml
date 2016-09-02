@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence>
+    <persistence-unit name="jblog" transaction-type="JTA">
+        <class>com.youthlin.jblog.model.User</class>
+        <!--直接用数据源。不用数据源而在properties里指定连接的话可以连接但persist的对象不会同步到数据库-->
+        <jta-data-source>java:jboss/datasources/MySqlDS</jta-data-source>
+        <!--不需要指定provider-->
+        <!--<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+        <properties>
+            <!--原来写的是用Hibernate直接连接数据库，可以正常使用，但，persist时不能同步到数据库。因此改用JBoss配置的数据源-->
+            <!--<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>-->
+            <!--<property name="hibernate.connection.url"-->
+            <!--value="jdbc.mysql://localhost:3306/jblog?-->
+            <!--useSSL=false&amp;serverTimezone=GMT%2b8&amp;useUnicode=true&amp;characterEncoding=UTF-8"/>-->
+            <!--<property name="hibernate.connection.username" value="root"/>-->
+            <!--<property name="hibernate.connection.password" value="root"/>-->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+    </persistence-unit>
+</persistence>

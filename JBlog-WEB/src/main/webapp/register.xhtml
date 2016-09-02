@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>注册</title>
+</head>
+<body>
+<f:view>
+    <h:outputLabel value="注册"/>
+    <h:form styleClass="form-horizontal">
+        <div class="form-group">
+            <h:outputLabel for="username" styleClass="col-sm-2 control-label">用户名</h:outputLabel>
+            <div class="col-sm-10">
+                <h:inputText type="text" class="form-control" id="username"
+                             value="#{userBean.user.username}" p:placeholder="用户名"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <h:outputLabel for="password-plain" class="col-sm-2 control-label">密码</h:outputLabel>
+            <div class="col-sm-10">
+                <h:inputSecret type="password" class="form-control" id="password-plain"
+                               value="#{userBean.user.password}" p:placeholder="8位以上数字字母组合"/>
+                <h:inputHidden type="hidden" class="sr-only" id="password" />
+            </div>
+        </div>
+        <div class="form-group">
+            <h:outputLabel for="email" class="col-sm-2 control-label">电子邮件</h:outputLabel>
+            <div class="col-sm-10">
+                <h:inputText type="email" class="form-control" id="email"
+                             value="#{userBean.user.email}" p:placeholder="用于找回密码"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <h:commandButton action="#{userBean.register}" value=" 提交" styleClass="btn btn-primary"/>
+                <button type="submit" class="btn btn-primary">注册</button>
+                <span style="/*float: right;*/">已有账号？<a href="#">点此登录</a></span>
+            </div>
+        </div>
+    </h:form>
+</f:view>
+</body>
+</html>
