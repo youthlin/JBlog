@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+    <div class="blog-masthead">
+        <div class="container">
+            <nav class="blog-nav">
+                <h:link outcome="index" value="首页" styleClass="blog-nav-item blog-nav-item-home"/>
+                <h:link outcome="article" value="博文" styleClass="blog-nav-item blog-nav-item-text"/>
+                <h:link outcome="photo" value="相册" styleClass="blog-nav-item blog-nav-item-image"/>
+                <h:link outcome="about" value="关于" styleClass="blog-nav-item blog-nav-item-about"/>
+                <!-- h:outputLink 的 value 会直接作为 a 的 href. h:link 的 outcome 就是导航字符串, 自动带上Context路径-->
+                <!--<h:outputLink value="index">Link</h:outputLink>-->
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="blog-header">
+            <h1 class="blog-title"><h:link outcome="index" value="JBlog"/></h1>
+            <p class="lead blog-description">个人博客系统 - JavaEE / EJB / JPA / JSF - Powered By Youth．霖</p>
+        </div>
+    </div>
+</ui:composition>

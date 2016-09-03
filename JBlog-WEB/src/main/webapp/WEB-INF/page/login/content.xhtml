@@ -1,0 +1,34 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+    <f:view>
+        <div class="col-sm-8 blog-main">
+            <h2>登录</h2>
+            <hr/>
+            <h:form styleClass="form-horizontal">
+                <div class="form-group">
+                    <h:outputLabel for="username" styleClass="col-sm-2 control-label">用户名</h:outputLabel>
+                    <div class="col-sm-10">
+                        <h:inputText type="text" class="form-control" id="username"
+                                     value="#{userBean.user.username}" p:placeholder="用户名"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel for="password-plain" class="col-sm-2 control-label">密码</h:outputLabel>
+                    <div class="col-sm-10">
+                        <h:inputSecret type="password" class="form-control" id="password-plain"
+                                       value="#{userBean.user.password}" p:placeholder="8位以上数字字母组合"/>
+                        <h:inputHidden type="hidden" class="sr-only" id="password"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <h:commandButton action="#{userBean.login}" value="登录" styleClass="btn btn-primary"/>
+                        <span style="/*float: right;*/">还没账号？<h:link outcome="register" value="立即注册"/></span>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+    </f:view>
+</ui:composition>
