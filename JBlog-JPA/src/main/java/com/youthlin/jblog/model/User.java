@@ -2,13 +2,14 @@ package com.youthlin.jblog.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,10 +31,14 @@ public class User implements Serializable {
     private String gravatar;        //头像地址
     @Column(name = "s_key")             //key可能是关键字
     private String key;             //一般为null，当通过邮件重置密码时，重置链接为/resetPassword?id=userId&key=xxx
+    private Byte status = 1;            //状态：0管理员 1访客 2删除
+
     @OneToMany(mappedBy = "author")     //fetch = FetchType.LAZY是默认值
-    private List<Post> posts;       //发表的文章或照片
+    private List<Post> posts = new ArrayList<>();       //发表的文章或照片
     @OneToMany(mappedBy = "author")     //mappedBy的值是对方引用本实体的属性名
-    private List<Comment> comments; //发表的评论
+    private List<Comment> comments = new ArrayList<>(); //发表的评论
+    @ManyToMany
+    private List<Post> likedPost = new ArrayList<>();   //收藏的图文
 
     @Override
     public String toString() {
@@ -44,8 +49,10 @@ public class User implements Serializable {
                 ", email='" + email + '\'' +
                 ", gravatar='" + gravatar + '\'' +
                 ", key='" + key + '\'' +
+                ", status=" + status +
                 ", posts=" + posts +
                 ", comments=" + comments +
+                ", likedPost=" + likedPost +
                 '}';
     }
 
@@ -112,6 +119,22 @@ public class User implements Serializable {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public List<Post> getLikedPost() {
+        return likedPost;
+    }
+
+    public void setLikedPost(List<Post> likedPost) {
+        this.likedPost = likedPost;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
     //endregion
 }
