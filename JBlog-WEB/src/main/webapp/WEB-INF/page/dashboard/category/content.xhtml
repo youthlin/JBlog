@@ -1,0 +1,101 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <!--分类管理 开始-->
+    <script>$('.left-siderbar-category').addClass('active');</script>
+    <div class="well">
+        <h3>添加分类</h3><span class="text-danger">#{categoryBean.msg}</span>
+        <h:form styleClass="form-horizontal">
+            <div class="form-group">
+                <h:outputLabel for="name" styleClass="col-sm-2 control-label">分类名称</h:outputLabel>
+                <div class="col-sm-10">
+                    <h:inputText type="text" class="form-control" id="name"
+                                 value="#{categoryBean.name}" p:placeholder="分类名称"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <h:outputLabel for="select-category" styleClass="col-sm-2 control-label">分类类型</h:outputLabel>
+                <div class="col-sm-10">
+                    <h:selectOneMenu styleClass="form-control" id="select-category"
+                                     value="#{categoryBean.status}">
+                        <f:selectItem itemValue="0" itemLabel="文章分类"/>
+                        <f:selectItem itemValue="1" itemLabel="照片分类"/>
+                    </h:selectOneMenu>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <h:commandButton action="#{categoryBean.add}" value="添加" styleClass="btn btn-primary"/>
+                </div>
+            </div>
+        </h:form>
+    </div>
+
+    <div class="well">
+        <h3>文章分类</h3><span class="text-danger">#{categoryBean.msg}</span>
+        <h:form>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>名称</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:set var="index" value="0"/>
+                    <c:forEach items="#{categoryBean.textCategory}" var="text">
+                        <c:set var="index" value="${index+1}"/>
+                        <tr>
+                            <td>${index}</td>
+                            <td>#{text.name}</td>
+                            <td>
+                                <c:if test="#{text.name != categoryBean.textUncategory.name}">
+                                    <h:link value="编辑"/> |
+                                    <h:link value="删除"/>
+                                </c:if>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </h:form>
+    </div>
+
+    <div class="well">
+        <h3>照片分类</h3><span class="text-danger">#{categoryBean.msg}</span>
+        <h:form>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>名称</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:set var="index" value="0"/>
+                    <c:forEach items="#{categoryBean.imageCategory}" var="text">
+                        <c:set var="index" value="${index+1}"/>
+                        <tr>
+                            <td>${index}</td>
+                            <td>#{text.name}</td>
+                            <td>
+                                <c:if test="#{text.name != categoryBean.imageUncategory.name}">
+                                    <h:link value="编辑"/> |
+                                    <h:link value="删除"/>
+                                </c:if>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </h:form>
+    </div>
+    <!--分类管理 结束-->
+</ui:composition>
