@@ -1,6 +1,7 @@
 package com.youthlin.jblog.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by lin on 2016-09-02-002.
@@ -18,4 +19,6 @@ public interface BaseDao<T extends Serializable, PK extends Serializable> {
     T update(T entity);
 
     T find(Class<T> clazz, PK primaryKey);
+
+    List<T> findAll(Class<T> clazz);
 }

@@ -9,6 +9,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lin on 2016-09-02-002.
@@ -52,6 +54,32 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable> implem
     public T find(Class<T> clazz, PK primaryKey) {
         log.debug("find:class={},id={}", clazz, primaryKey);
         return em.find(clazz, primaryKey);
+    }
+
+    @Override
+    public List<T> findAll(Class<T> entityClass) {
+        log.debug("find all");
+        TypedQuery<T> query = em.createQuery("select t from " + entityClass.getSimpleName() + " as t", entityClass);
+        return query.getResultList();
+    }
+
+    public T getOne(Class<T> entityClass, String jpql, Map<String, Object> param) {
+        TypedQuery<T> query = em.createQuery(jpql, entityClass);
+        for (String key : param.keySet()) {
+            query.setParameter(key, param.get(key));
+        }
+        return getSingleResult(query);
+    }
+
+//    public T getOne(Class<T> entityClass, String jpql, Object... param) {
+//    }
+
+    public List<T> getAsList(Class<T> entityClass, String jpql, Map<String, Object> param) {
+        TypedQuery<T> query = em.createQuery(jpql, entityClass);
+        for (String key : param.keySet()) {
+            query.setParameter(key, param.get(key));
+        }
+        return query.getResultList();
     }
 
     /**
