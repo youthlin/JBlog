@@ -2,27 +2,25 @@
 <html xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html">
 <h:head>
     <title><ui:insert name="title">JBlog</ui:insert></title>
-    <ui:insert name="head"><ui:include src="head.xhtml"/></ui:insert>
+    <ui:insert name="head"><ui:include src="../frontend/head.xhtml"/></ui:insert>
 </h:head>
-<body>
+<body class="fixed-top">
 <div class="wrap" id="wrap">
     <div id="header">
         <ui:insert name="header"><ui:include src="header.xhtml"/></ui:insert>
     </div>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div id="content">
-                <ui:insert name="content">
-                    <div><ui:include src="content.xhtml"/></div>
+            <div id="left-siderbar">
+                <ui:insert name="sidebar">
+                    <div><ui:include src="left.xhtml"/></div>
                 </ui:insert>
             </div>
-            <div id="sidebar">
-                <ui:insert name="sidebar">
-                    <div><ui:include src="siderbar.xhtml"/></div>
-                </ui:insert>
+            <div id="conten" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <ui:insert name="content"><!--content--></ui:insert>
             </div>
         </div><!-- /.row -->
-    </div><!-- /.container -->
+    </div><!-- /.container-fluid -->
     <div class="clear" id="end"></div>
 </div>
 <div id="copyright">

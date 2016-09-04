@@ -6,7 +6,11 @@
          xmlns="http://java.sun.com/xml/ns/javaee"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          id="WebApp_ID" version="3.0">
-    <display-name>Archetype Created Web Application</display-name>
+    <display-name>JBlog - Archetype Created Web Application</display-name>
+    <welcome-file-list>
+        <welcome-file>index.xhtml</welcome-file>
+    </welcome-file-list>
+
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -16,4 +20,14 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
+
+    <filter>
+        <filter-name>myfilter</filter-name>
+        <description>拦截仪表盘，当未登录时转到登录页</description>
+        <filter-class>com.youthlin.jblog.listener.MyFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>myfilter</filter-name>
+        <url-pattern>/dashboard/*</url-pattern>
+    </filter-mapping>
 </web-app>

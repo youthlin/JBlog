@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html">
+<h:head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="author" content="Youth．霖"/>
+    <title><ui:insert name="title">JBlog</ui:insert></title>
+    <ui:insert name="head"><ui:include src="head.xhtml"/></ui:insert>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</h:head>
+<body>
+<div class="wrap" id="wrap">
+    <div id="header">
+        <ui:insert name="header"><ui:include src="header.xhtml"/></ui:insert>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div id="content">
+                <ui:insert name="content">
+                    <div><ui:include src="content.xhtml"/></div>
+                </ui:insert>
+            </div>
+            <div id="sidebar">
+                <ui:insert name="sidebar">
+                    <div><ui:include src="siderbar.xhtml"/></div>
+                </ui:insert>
+            </div>
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+    <div class="clear" id="end"></div>
+</div>
+<div id="copyright">
+    <div id="footer">
+        <ui:insert name="footer"><ui:include src="footer.xhtml"/></ui:insert>
+    </div>
+</div>
+</body>
+</html>

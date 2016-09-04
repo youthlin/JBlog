@@ -1,9 +1,61 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:ui="http://java.sun.com/jsf/facelets">
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core">
     <!--首页内容-->
     <script>$('.blog-nav-item-home').addClass('active');</script>
     <div class="col-sm-8 blog-main">
         <h2>欢迎</h2>
+        <div class="col-sm-6 well newest-post newest-post-text">
+            <h:link outcome="article" value="查看所有文章" styleClass="btn btn-default"/>
+            <hr/>
+            <h3>最新文章：</h3>
+            <c:choose>
+                <c:when test="#{homeBean.newestText != null}">
+                    <div class="blog-post">
+                        <h4 class="blog-post-title">
+                            <h:link outcome="/article?id=#{homeBean.newestText.id}"
+                                    value="#{homeBean.newestText.title}"/>
+                        </h4>
+                        <div class="blog-post-meta">
+                            作者：<span class="blog-post-author">#{homeBean.newestText.author}</span>
+                            发表时间：<span class="blog-post-publish-date">#{homeBean.newestText.publishDate}</span>
+                            分类：<span class="blog-post-publish-category">#{homeBean.newestText.category.name}</span>
+                        </div>
+                        <div class="blog-post-content">
+                            #{homeBean.newestText.content.substring(0,200)}
+                        </div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    暂无文章
+                </c:otherwise>
+            </c:choose>
+        </div>
+        <div class="col-sm-6 well  newest-post newest-post-image">
+            <h:link outcome="photo" value="查看所有照片" styleClass="btn btn-default"/>
+            <hr/>
+            <h3>最新照片：</h3>
+            <c:choose>
+                <c:when test="#{homeBean.newestImage !=null}">
+                    <div class="blog-post">
+                        <h4 class="blog-post-title">
+                            <h:link outcome="/article?id=#{homeBean.newestImage.id}"
+                                    value="#{homeBean.newestImage.title}"/>
+                        </h4>
+                        <div class="blog-post-meta">
+                            作者：<span class="blog-post-author">#{homeBean.newestImage.author}</span>
+                            发表时间：<span class="blog-post-publish-date">#{homeBean.newestImage.publishDate}</span>
+                            分类：<span class="blog-post-publish-category">#{homeBean.newestImage.category.name}</span>
+                        </div>
+                        <div class="blog-post-content">
+                            <h:graphicImage alt="照片" url="#{homeBean.newestImage.content}"/>
+                        </div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    暂无照片
+                </c:otherwise>
+            </c:choose>
+        </div>
     </div>
 </ui:composition>

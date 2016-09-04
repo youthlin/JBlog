@@ -13,7 +13,6 @@ import javax.persistence.TypedQuery;
  * DAO实现类
  */
 @Stateless
-@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao {
 
     @Override
@@ -30,6 +29,16 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao {
         TypedQuery<User> query = em.createQuery("select u from User as u where u.username=:username and u.password=:password", User.class);
         query.setParameter("username", username);
         query.setParameter("password", password);
+        return getSingleResult(query);
+    }
+
+    @Override
+    public User findAdmin() {
+        log.debug("查找管理员");
+        TypedQuery<User> query = em.createQuery("select u from User as u where u.status=:status", User.class);
+        query.setParameter("status", Byte.valueOf("0"));
+        query.setFirstResult(0);
+        query.setMaxResults(1);
         return getSingleResult(query);
     }
 

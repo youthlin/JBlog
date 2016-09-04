@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">展开/关闭</span>
+                    <span class="icon-bar"/>
+                    <span class="icon-bar"/>
+                    <span class="icon-bar"/>
+                </button>
+                <h:link outcome="/index" value="JBlog" styleClass="navbar-brand"/>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">欢迎您, #{context.user.username}
+                            <span class="caret"/></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">个人资料</a></li>
+                            <li class="divider"/>
+                            <li><a href="#">文章收藏</a></li>
+                            <li><a href="#">照片收藏</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</ui:composition>

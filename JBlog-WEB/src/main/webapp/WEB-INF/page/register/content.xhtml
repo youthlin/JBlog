@@ -1,38 +1,49 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+                xmlns:p="http://xmlns.jcp.org/jsf/passthrough" xmlns:c="http://java.sun.com/jsp/jstl/core">
     <f:view>
         <div class="col-sm-8 blog-main">
             <h2>注册</h2>
+            <c:if test="#{userBean.admin==null}">
+                <p>系统初始化：第一个注册用户是管理员</p>
+            </c:if>
             <hr/>
             <h:form styleClass="form-horizontal">
                 <div class="form-group">
                     <h:outputLabel for="username" styleClass="col-sm-2 control-label">用户名</h:outputLabel>
                     <div class="col-sm-10">
-                        <h:inputText type="text" class="form-control" id="username"
-                                     value="#{userBean.user.username}" p:placeholder="用户名"/>
+                        <h:inputText type="text" class="form-control" id="username" p:required="true"
+                                     validator="#{userBean.validateUsername}"
+                                     value="#{userBean.user.username}" p:placeholder="请输入用户名">
+                            <!--http://www.ibm.com/developerworks/cn/java/j-jsf2fu3/#listing9-->
+                            <f:ajax event="blur" render="username-msg"/>
+                        </h:inputText>
+                        <h:message for="username" styleClass="text-danger"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <h:outputLabel for="password-plain" class="col-sm-2 control-label">密码</h:outputLabel>
                     <div class="col-sm-10">
                         <h:inputSecret type="password" class="form-control" id="password-plain"
+                                       validator="#{userBean.validatePassword}" p:required="true"
                                        value="#{userBean.user.password}" p:placeholder="8位以上数字字母组合"/>
-                        <h:inputHidden type="hidden" class="sr-only" id="password"/>
+                        <h:message for="password-plain" styleClass="text-danger"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <h:outputLabel for="email" class="col-sm-2 control-label">电子邮件</h:outputLabel>
                     <div class="col-sm-10">
-                        <h:inputText type="email" class="form-control" id="email"
+                        <h:inputText type="email" class="form-control" id="email" required="true"
+                                     p:required="true" p:type="email" validator="#{userBean.validateEmail}"
                                      value="#{userBean.user.email}" p:placeholder="用于找回密码"/>
+                        <h:message for="email" styleClass="text-danger"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <h:commandButton action="#{userBean.register}" value="注册" styleClass="btn btn-primary"/>
-                        <span style="/*float: right;*/">已有账号？<h:link outcome="register" value="点此登录"/></span>
+                        <span>已有账号？<h:link outcome="login" value="点此登录"/></span>
                     </div>
                 </div>
             </h:form>

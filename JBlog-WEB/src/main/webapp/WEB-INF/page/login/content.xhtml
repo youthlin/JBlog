@@ -22,10 +22,14 @@
                         <h:inputHidden type="hidden" class="sr-only" id="password"/>
                     </div>
                 </div>
+                <p class="col-sm-offset-2 text-danger">#{userBean.loginMsg}</p>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <h:commandButton action="#{userBean.login}" value="登录" styleClass="btn btn-primary"/>
-                        <span style="/*float: right;*/">还没账号？<h:link outcome="register" value="立即注册"/></span>
+                        <span>
+                            <h:link outcome="register" value="忘记密码"/> |
+                            <h:link outcome="register" value="立即注册"/>
+                        </span>
                     </div>
                 </div>
             </h:form>
