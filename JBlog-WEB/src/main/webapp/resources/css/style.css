@@ -233,9 +233,9 @@ body.fixed-top {
  */
 
 /* Hide for mobile, show later */
-.sidebar {
-    display: none;
-}
+/*.sidebar {*/
+/*display: none;*/
+/*}*/
 
 @media (min-width: 768px) {
     .sidebar {

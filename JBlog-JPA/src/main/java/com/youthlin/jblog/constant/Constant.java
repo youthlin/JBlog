@@ -7,6 +7,7 @@ package com.youthlin.jblog.constant;
 public class Constant {
     public static final String BLOG_TITLE = "JBlog";
     public static final String BLOG_DESCRIPTION = "个人博客系统 - JavaEE / EJB / JPA / JSF - Powered By Youth．霖";
+    public static final String CURRENT_USER = "current_user";
 
     public static final String POST_TYPE_TEXT = "text";
     public static final String POST_TYPE_IMAGE = "image";
