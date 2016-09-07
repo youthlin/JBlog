@@ -10,19 +10,19 @@
             <hr/>
             <h3>最新文章：</h3>
             <c:choose>
-                <c:when test="#{homeBean.newestText != null}">
+                <c:when test="#{postBean.newestText != null}">
                     <div class="blog-post">
                         <h4 class="blog-post-title">
-                            <h:link outcome="/article?id=#{homeBean.newestText.id}"
-                                    value="#{homeBean.newestText.title}"/>
+                            <h:link outcome="/article?id=#{postBean.newestText.id}"
+                                    value="#{postBean.newestText.title}"/>
                         </h4>
                         <div class="blog-post-meta">
-                            作者：<span class="blog-post-author">#{homeBean.newestText.author}</span>
-                            发表时间：<span class="blog-post-publish-date">#{homeBean.newestText.publishDate}</span>
-                            分类：<span class="blog-post-publish-category">#{homeBean.newestText.category.name}</span>
+                            作者：<span class="blog-post-author">#{postBean.newestText.author}</span>
+                            发表时间：<span class="blog-post-publish-date">#{postBean.newestText.publishDate}</span>
+                            分类：<span class="blog-post-publish-category">#{postBean.newestText.category.name}</span>
                         </div>
                         <div class="blog-post-content">
-                            #{homeBean.newestText.content.substring(0,200)}
+                            #{postBean.newestText.content.substring(0,200)}
                         </div>
                     </div>
                 </c:when>
@@ -36,19 +36,19 @@
             <hr/>
             <h3>最新照片：</h3>
             <c:choose>
-                <c:when test="#{homeBean.newestImage !=null}">
+                <c:when test="#{postBean.newestImage !=null}">
                     <div class="blog-post">
                         <h4 class="blog-post-title">
-                            <h:link outcome="/article?id=#{homeBean.newestImage.id}"
-                                    value="#{homeBean.newestImage.title}"/>
+                            <h:link outcome="/article?id=#{postBean.newestImage.id}"
+                                    value="#{postBean.newestImage.title}"/>
                         </h4>
                         <div class="blog-post-meta">
-                            作者：<span class="blog-post-author">#{homeBean.newestImage.author}</span>
-                            发表时间：<span class="blog-post-publish-date">#{homeBean.newestImage.publishDate}</span>
-                            分类：<span class="blog-post-publish-category">#{homeBean.newestImage.category.name}</span>
+                            作者：<span class="blog-post-author">#{postBean.newestImage.author}</span>
+                            发表时间：<span class="blog-post-publish-date">#{postBean.newestImage.publishDate}</span>
+                            分类：<span class="blog-post-publish-category">#{postBean.newestImage.category.name}</span>
                         </div>
                         <div class="blog-post-content">
-                            <h:graphicImage alt="照片" url="#{homeBean.newestImage.content}"/>
+                            <h:graphicImage alt="照片" url="#{postBean.newestImage.content}"/>
                         </div>
                     </div>
                 </c:when>

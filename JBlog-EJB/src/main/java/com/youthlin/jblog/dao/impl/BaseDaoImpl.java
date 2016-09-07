@@ -71,9 +71,6 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable> implem
         return getSingleResult(query);
     }
 
-//    public T getOne(Class<T> entityClass, String jpql, Object... param) {
-//    }
-
     public List<T> getAsList(Class<T> entityClass, String jpql, Map<String, Object> param) {
         TypedQuery<T> query = em.createQuery(jpql, entityClass);
         for (String key : param.keySet()) {
@@ -92,6 +89,8 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable> implem
             log.trace("获取单个实体成功:{}", entity);
         } catch (NoResultException e) {
             log.trace("找不到符合条件的实体");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return entity;
     }

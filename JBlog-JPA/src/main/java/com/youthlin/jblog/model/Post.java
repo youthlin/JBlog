@@ -37,7 +37,7 @@ public class Post implements Serializable {
     @Column(name = "publish_date")
     private Date publishDate;                       //发表时间
     private Long hint = 0L;                         //点击数
-    @Column(name = "allow_comment")
+    @Column(name = "allow_comment", columnDefinition = "tinyint(1)")
     private Boolean allowComment = true;            //允许评论
     private Byte status = 1;                        //状态：0发表 1草稿 2删除
 
@@ -61,7 +61,7 @@ public class Post implements Serializable {
                 ", hint=" + hint +
                 ", allowComment=" + allowComment +
                 ", status=" + status +
-                ", author=" + author +
+                ", author=" + author.getUsername() +
                 ", comments=" + comments +
                 ", category=" + category +
                 ", likedUser=" + likedUser +

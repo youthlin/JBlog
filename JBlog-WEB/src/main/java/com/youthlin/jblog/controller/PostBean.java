@@ -30,6 +30,18 @@ public class PostBean {
     private PostDao postDao = EJBUtil.getBean(PostDao.class);
     private CategoryDao categoryDao = EJBUtil.getBean(CategoryDao.class);
     private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private Post newestText;
+    private Post newestImage;
+
+    public PostBean() {
+        clear();
+        update();
+    }
+
+    private void update() {
+        newestText = postDao.getNewestText();
+        newestImage = postDao.getNewestImage();
+    }
 
     private void clear() {
         title = "";
@@ -54,9 +66,11 @@ public class PostBean {
         postDao.save(post);
         categoryDao.update(category);
         clear();
+        update();
         log.debug("发表文章成功");
         return WRITE;
     }
+
 
     public String getTitle() {
         return title;
@@ -88,5 +102,21 @@ public class PostBean {
 
     public void setAllowComment(Boolean allowComment) {
         this.allowComment = allowComment;
+    }
+
+    public Post getNewestText() {
+        return newestText;
+    }
+
+    public void setNewestText(Post newestText) {
+        this.newestText = newestText;
+    }
+
+    public Post getNewestImage() {
+        return newestImage;
+    }
+
+    public void setNewestImage(Post newestImage) {
+        this.newestImage = newestImage;
     }
 }
