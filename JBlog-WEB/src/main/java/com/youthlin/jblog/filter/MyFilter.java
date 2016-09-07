@@ -1,7 +1,6 @@
-package com.youthlin.jblog.listener;
+package com.youthlin.jblog.filter;
 
 import com.youthlin.jblog.constant.Constant;
-import com.youthlin.jblog.controller.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,11 +29,11 @@ public class MyFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
+        log.debug("filter url:{}?{},param map={}", req.getRequestURI(), req.getQueryString(), req.getParameterMap());
         if (((HttpServletRequest) request).getSession(true).getAttribute(Constant.CURRENT_USER) == null) {
             log.debug("未登录！");
             ((HttpServletResponse) response).sendRedirect(req.getServletContext().getContextPath() + "/login.xhtml");
         } else {
-            log.debug("filter url:{}?{}", req.getRequestURI(), req.getQueryString());
             chain.doFilter(request, response);
         }
     }

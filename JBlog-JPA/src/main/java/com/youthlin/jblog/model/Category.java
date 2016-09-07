@@ -1,6 +1,8 @@
 package com.youthlin.jblog.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,8 +36,10 @@ public class Category implements Serializable {
     private Long id;
     private String name;    //分类名
     private Byte status;    //0文章分类 1相册分类 2删除的文章分类 3删除的相册分类
-    @OneToMany(mappedBy = "category")
-    private List<Post> posts = new ArrayList<>();
+    @Column(name = "post_count")
+    private Long postCount = 0L;
+//    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+//    private List<Post> posts = new ArrayList<>();
 
     @Override
     public String toString() {
@@ -43,7 +47,7 @@ public class Category implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", status=" + status +
-                ", posts=" + posts +
+                ", postCount=" + postCount +
                 '}';
     }
 
@@ -80,12 +84,22 @@ public class Category implements Serializable {
         this.status = status;
     }
 
-    public List<Post> getPosts() {
-        return posts;
+//    public List<Post> getPosts() {
+//        return posts;
+//    }
+//
+//    public void setPosts(List<Post> posts) {
+//        this.posts = posts;
+//    }
+
+    public Long getPostCount() {
+
+        return postCount;
     }
 
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
+    public void setPostCount(Long postCount) {
+        this.postCount = postCount;
     }
+
     //endregion
 }

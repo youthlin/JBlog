@@ -4,7 +4,7 @@
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
     http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
     <lifecycle>
-        <phase-listener>com.youthlin.jblog.listener.FilterRolePhaseListener</phase-listener>
+        <phase-listener>com.youthlin.jblog.filter.FilterRolePhaseListener</phase-listener>
     </lifecycle>
 
     <navigation-rule>

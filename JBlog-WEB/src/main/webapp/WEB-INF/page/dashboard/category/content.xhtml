@@ -1,7 +1,9 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
-                xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <!--分类管理 开始-->
     <script>$('.left-siderbar-category').addClass('active');</script>
     <div class="well">
@@ -33,10 +35,10 @@
     </div>
 
     <div class="well">
-        <h3>文章分类</h3><span class="text-danger">#{categoryBean.msg}</span>
+        <h3>文章分类</h3><span class="text-danger">#{categoryBean.msgEditTextCategory}</span>
         <h:form>
             <div class="table-responsive">
-                <table class="table table-striped table-hover">
+                <table class="table table-striped table-hover table-bordered">
                     <thead>
                     <tr>
                         <th>序号</th>
@@ -53,8 +55,13 @@
                             <td>#{text.name}</td>
                             <td>
                                 <c:if test="#{text.name != categoryBean.textUncategory.name}">
-                                    <h:link value="编辑"/> |
-                                    <h:link value="删除"/>
+                                    <a href="#edit-modal" class="edit-text-category-link"
+                                       data-toggle="modal" data-target="#edit-modal"
+                                       data-id="#{text.id}" data-name="#{text.name}" data-status="#{text.status}">修改</a>
+                                    | <a href="#delete-modal" class="edit-text-category-link"
+                                         data-toggle="modal" data-target="#delete-modal"
+                                         data-post-count="#{text.postCount}" data-id="#{text.id}"
+                                         data-name="#{text.name}" data-status="#{text.status}">删除</a>
                                 </c:if>
                             </td>
                         </tr>
@@ -66,10 +73,10 @@
     </div>
 
     <div class="well">
-        <h3>照片分类</h3><span class="text-danger">#{categoryBean.msg}</span>
+        <h3>照片分类</h3><span class="text-danger">#{categoryBean.msgEditImageCategory}</span>
         <h:form>
             <div class="table-responsive">
-                <table class="table table-striped table-hover">
+                <table class="table table-striped table-hover table-bordered">
                     <thead>
                     <tr>
                         <th>序号</th>
@@ -79,15 +86,21 @@
                     </thead>
                     <tbody>
                     <c:set var="index" value="0"/>
-                    <c:forEach items="#{categoryBean.imageCategory}" var="text">
+                    <c:forEach items="#{categoryBean.imageCategory}" var="image">
                         <c:set var="index" value="${index+1}"/>
                         <tr>
                             <td>${index}</td>
-                            <td>#{text.name}</td>
+                            <td>#{image.name}</td>
                             <td>
-                                <c:if test="#{text.name != categoryBean.imageUncategory.name}">
-                                    <h:link value="编辑"/> |
-                                    <h:link value="删除"/>
+                                <c:if test="#{image.name != categoryBean.imageUncategory.name}">
+                                    <a href="#edit-modal" class="edit-text-category-link"
+                                       data-toggle="modal" data-target="#edit-modal"
+                                       data-id="#{image.id}" data-name="#{image.name}"
+                                       data-status="#{image.status}">修改</a> |
+                                    <a href="#delete-modal" class="edit-text-category-link"
+                                       data-toggle="modal" data-target="#delete-modal"
+                                       data-post-count="#{image.postCount}" data-id="#{image.id}"
+                                       data-name="#{image.name}" data-status="#{image.status}">删除</a>
                                 </c:if>
                             </td>
                         </tr>
@@ -97,5 +110,91 @@
             </div>
         </h:form>
     </div>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $('#edit-modal').on('show.bs.modal', function (e) {
+                var a = $(e.relatedTarget);
+                var modal = $(this);
+                modal.find('.edit-category-name').val(a.data('name'));
+                modal.find('.edit-category-status').val(a.data('status'));
+                modal.find('.edit-category-id').val(a.data('id'));
+            });
+            $('#delete-modal').on('show.bs.modal', function (e) {
+                var a = $(e.relatedTarget);
+                var modal = $(this);
+                modal.find('.delete-category-name').html(a.data('name'));
+                modal.find('.delete-category-post-count').html(a.data('post-count'));
+                modal.find('.delete-category-id').val(a.data('id'));
+            });
+        });
+    </script>
+    <!-- 编辑模态框Modal -->
+    <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <h:form styleClass="form-horizontal">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span
+                                aria-hidden="true">&#215;</span><span class="sr-only">关闭</span></button>
+                        <h4 class="modal-title" id="myModalLabel">编辑分类</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <h:outputLabel for="name" styleClass="col-sm-2 control-label">分类名称</h:outputLabel>
+                            <div class="col-sm-10">
+                                <h:inputText type="text" class="form-control edit-category-name"
+                                             value="#{categoryBean.name}" p:placeholder="分类名称"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <h:outputLabel for="select-category"
+                                           styleClass="col-sm-2 control-label">分类类型</h:outputLabel>
+                            <div class="col-sm-10">
+                                <h:selectOneMenu styleClass="form-control edit-category-status"
+                                                 disabled="true" readonly="true"
+                                                 value="#{categoryBean.status}">
+                                    <f:selectItem itemValue="0" itemLabel="文章分类"/>
+                                    <f:selectItem itemValue="1" itemLabel="照片分类"/>
+                                </h:selectOneMenu>
+                            </div>
+                        </div>
+                        <h:inputHidden p:class="edit-category-id" value="#{categoryBean.id}"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <h:commandButton action="#{categoryBean.edit}" value="修改" styleClass="btn btn-primary"/>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+    </div>
+    <!-- 删除模态框Modal -->
+    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&#215;</span><span class="sr-only">关闭</span></button>
+                    <h4 class="modal-title" id="myModalLabel1">删除分类</h4>
+                </div>
+                <div class="modal-body">
+                    将要删除分类【<span class="delete-category-name"/>】，
+                    该分类下有【<span class="delete-category-post-count"/>】篇文章。<br/>
+                    删除后该分类下所有内容都将归为 默认分类 ，确定删除吗？
+                </div>
+                <div class="modal-footer">
+                    <h:form styleClass="form-horizontal">
+                        <h:inputHidden value="#{categoryBean.id}" p:class="delete-category-id"/>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <h:commandButton action="#{categoryBean.delete}" value="删除" styleClass="btn btn-primary"/>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--分类管理 结束-->
 </ui:composition>

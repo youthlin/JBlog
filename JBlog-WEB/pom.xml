@@ -24,6 +24,14 @@
             <artifactId>JBlog-EJB-API</artifactId>
             <version>${jblog.ejb.api.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>5.0.10.Final</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
