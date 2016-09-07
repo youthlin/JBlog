@@ -118,6 +118,7 @@
                 var modal = $(this);
                 modal.find('.edit-category-name').val(a.data('name'));
                 modal.find('.edit-category-status').val(a.data('status'));
+                modal.find('#edit-form\\:status').val(a.data('status'));
                 modal.find('.edit-category-id').val(a.data('id'));
             });
             $('#delete-modal').on('show.bs.modal', function (e) {
@@ -134,7 +135,7 @@
          aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <h:form styleClass="form-horizontal">
+                <h:form styleClass="form-horizontal" id="edit-form">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span
                                 aria-hidden="true">&#215;</span><span class="sr-only">关闭</span></button>
@@ -149,15 +150,15 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <h:outputLabel for="select-category"
+                            <h:outputLabel for="item-select"
                                            styleClass="col-sm-2 control-label">分类类型</h:outputLabel>
                             <div class="col-sm-10">
-                                <h:selectOneMenu styleClass="form-control edit-category-status"
-                                                 disabled="true" readonly="true"
-                                                 value="#{categoryBean.status}">
+                                <h:selectOneMenu styleClass="form-control edit-category-status" id="item-select"
+                                                 disabled="true">
                                     <f:selectItem itemValue="0" itemLabel="文章分类"/>
                                     <f:selectItem itemValue="1" itemLabel="照片分类"/>
                                 </h:selectOneMenu>
+                                <h:inputHidden value="#{categoryBean.status}" id="status"/>
                             </div>
                         </div>
                         <h:inputHidden p:class="edit-category-id" value="#{categoryBean.id}"/>

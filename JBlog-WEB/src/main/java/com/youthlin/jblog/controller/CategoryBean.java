@@ -6,13 +6,12 @@ import com.youthlin.jblog.dao.PostDao;
 import com.youthlin.jblog.model.Category;
 import com.youthlin.jblog.model.Post;
 import com.youthlin.jblog.util.EJBUtil;
-import org.hibernate.jpa.HibernateEntityManager;
-import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.SelectItem;
 import java.util.List;
 
 /**
@@ -77,22 +76,25 @@ public class CategoryBean {
         Category c = categoryDao.findByNameAndStatus(name, status);
         if (c != null) {
             if (status == 0) {
+                log.trace("有同名的文章分类");
                 msgEditTextCategory = "已有同名分类";
             }
             if (status == 1) {
+                log.trace("有同名的相册分类");
                 msgEditImageCategory = "已有同名分类";
             }
         } else {
+            log.trace("分类新名称可用");
             c = categoryDao.find(Category.class, id);
             c.setName(name);
             categoryDao.update(c);
-            updateList();
             if (status == 0) {
                 msgEditTextCategory = "修改成功";
             }
             if (status == 1) {
                 msgEditImageCategory = "修改成功";
             }
+            updateList();
         }
         return CATEGORY;
     }
@@ -140,6 +142,14 @@ public class CategoryBean {
             updateList();
         }
         return CATEGORY;
+    }
+
+    public SelectItem[] getAllTextCategory() {
+        SelectItem[] selectItems = new SelectItem[textCategory.size()];
+        for (int i = 0; i < textCategory.size(); i++) {
+            selectItems[i] = new SelectItem(textCategory.get(i).getId(), textCategory.get(i).getName());
+        }
+        return selectItems;
     }
 
     public Long getId() {

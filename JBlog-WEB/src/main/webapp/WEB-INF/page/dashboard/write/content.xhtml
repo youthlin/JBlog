@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <!--开始 写作-->
+    <script>$('.left-siderbar-add-text').addClass('active');</script>
+    <h:form p:role="form">
+        <div class="col-sm-8">
+            <h3>撰写文章</h3>
+            <div class="form-group">
+                <h:outputLabel for="title" value="文章标题"/>
+                <h:inputText id="title" value="#{postBean.title}" styleClass="form-control" p:placeholder="标题"/>
+            </div>
+            <div class="form-group">
+                <h:outputLabel for="content" value="文章内容"/>
+                <h:inputTextarea id="content" value="#{postBean.content}" styleClass="form-control" p:placeholder="内容"/>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <h3>选项</h3>
+            <div class="form-group">
+                <h:outputLabel for="category" value="分类"/>
+                <h:selectOneMenu id="category" styleClass="form-control" value="#{postBean.categoryId}">
+                    <f:selectItems value="#{categoryBean.allTextCategory}"/>
+                </h:selectOneMenu>
+            </div>
+            <div class="check-box">
+                <h:outputLabel>
+                    <h:selectBooleanCheckbox id="allow-comment"
+                                             value="#{postBean.allowComment}"/>
+                    允许评论
+                </h:outputLabel>
+            </div>
+        </div>
+    </h:form>
+    <!--结束 写作-->
+</ui:composition>
