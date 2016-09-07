@@ -11,6 +11,9 @@ public class Constant {
 
     public static final String POST_TYPE_TEXT = "text";
     public static final String POST_TYPE_IMAGE = "image";
+    public static byte POST_PUBLISH = 0;
+    public static byte POST_DRIFT = 1;
+    public static byte POST_DELETED = 2;
     public static final String CATEGORY_TEXT_UNCATEGORY_NAME = "默认分类";
     public static final String CATEGORY_IMAGE_UNCATEGORY_NAME = "默认相册";
     public static final byte CATEGORY_TEXT_TYPE = 0;

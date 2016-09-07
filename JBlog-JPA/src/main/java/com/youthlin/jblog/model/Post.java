@@ -36,7 +36,7 @@ public class Post implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "publish_date")
     private Date publishDate;                       //发表时间
-    private Long hint;                              //点击数
+    private Long hint = 0L;                         //点击数
     @Column(name = "allow_comment")
     private Boolean allowComment = true;            //允许评论
     private Byte status = 1;                        //状态：0发表 1草稿 2删除
