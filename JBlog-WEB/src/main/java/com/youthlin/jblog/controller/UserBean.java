@@ -101,6 +101,11 @@ public class UserBean {
         }
     }
 
+    public String logout() {
+        Context.setCurrentUser(null);
+        return "login";
+    }
+
     //region //getter and setter
     public User getUser() {
         return user;
@@ -121,5 +126,6 @@ public class UserBean {
     public void setLoginMsg(String loginMsg) {
         this.loginMsg = loginMsg;
     }
+
     //endregion
 }

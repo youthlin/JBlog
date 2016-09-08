@@ -15,7 +15,7 @@
                 <c:choose>
                     <c:when test="#{context.user != null}">
                         <li><h:link outcome="/dashboard/index" value="仪表盘"/></li>
-                        <li><h:link outcome="/login?from=logout" value="退出"/></li>
+                        <li><h:form><h:commandLink action="#{userBean.logout}" value="退出"/></h:form></li>
                     </c:when>
                     <c:otherwise>
                         <li><h:link outcome="/login" value="登录"/></li>
