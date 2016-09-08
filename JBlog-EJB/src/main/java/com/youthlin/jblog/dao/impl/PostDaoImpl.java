@@ -67,7 +67,7 @@ public class PostDaoImpl extends BaseDaoImpl<Post, Long> implements PostDao {
         String jpql = "select p from Post as p where p.status=0 and p.type=:type order by p.publishDate desc ";
         TypedQuery<Post> query = em.createQuery(jpql, Post.class);
         query.setParameter("type", type);
-        query.setFirstResult(pageStart);
+        query.setFirstResult((pageStart - 1) * pageSize);
         query.setMaxResults(pageSize);
         List<Post> posts = query.getResultList();
         System.out.println("该页文章有：" + posts);
@@ -78,12 +78,12 @@ public class PostDaoImpl extends BaseDaoImpl<Post, Long> implements PostDao {
         if (count == null) {
             count = 1L;
         } else {
-            count = count / pageSize;
+            count = count / pageSize + 1;
         }
         Page<Post> page = new Page<>();
-        page.setIndex(pageStart + 1);
-        page.setCount(count);
-        page.setSize(pageSize);
+        page.setPageIndex(pageStart);
+        page.setPageTotal(count);
+        page.setCountPerPage(pageSize);
         if (posts != null && posts.size() > 0) {
             page.setItem(posts);
         }

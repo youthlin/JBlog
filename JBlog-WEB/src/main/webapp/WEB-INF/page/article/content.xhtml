@@ -23,15 +23,15 @@
         <c:if test="${count eq 0}">
             暂无文章
         </c:if>
-        <c:if test="#{articleListBean.textPage.count gt 1}">
+        <c:if test="#{articleListBean.textPage.pageTotal gt 1}">
             <!--多于一页-->
             <nav>
                 <ul class="pager">
                     <c:choose>
-                        <c:when test="#{articleListBean.textPage.index gt 1}">
+                        <c:when test="#{articleListBean.textPage.pageIndex gt 1}">
                             <li>
                                 <h:link outcome="articles" value="上一页">
-                                    <f:param name="page" value="#{articleListBean.textPage.index-1}"/>
+                                    <f:param name="page" value="#{articleListBean.textPage.pageIndex-1}"/>
                                 </h:link>
                             </li>
                         </c:when>
@@ -40,10 +40,10 @@
                         </c:otherwise>
                     </c:choose>
                     <c:choose>
-                        <c:when test="#{articleListBean.textPage.index lt articleListBean.textPage.count}">
+                        <c:when test="#{articleListBean.textPage.pageIndex lt articleListBean.textPage.pageTotal}">
                             <li>
                                 <h:link outcome="articles" value="下一页">
-                                    <f:param name="page" value="#{articleListBean.textPage.index+1}"/>
+                                    <f:param name="page" value="#{articleListBean.textPage.pageIndex+1}"/>
                                 </h:link>
                             </li>
                         </c:when>

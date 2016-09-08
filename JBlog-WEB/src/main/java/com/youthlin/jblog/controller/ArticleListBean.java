@@ -6,7 +6,6 @@ import com.youthlin.jblog.dao.SettingsDao;
 import com.youthlin.jblog.model.Page;
 import com.youthlin.jblog.model.Post;
 import com.youthlin.jblog.util.EJBUtil;
-import com.youthlin.jblog.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +47,7 @@ public class ArticleListBean {
                 //默认值5
             }
         }
-        textPage = postDao.getTextByPage((page - 1) * size, size);
+        textPage = postDao.getTextByPage(page, size);
         log.trace("page={}", textPage);
     }
 

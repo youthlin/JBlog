@@ -9,53 +9,53 @@ import java.util.List;
  * 分页
  */
 public class Page<T> implements Serializable {
-    private long index = 0;//当前第几页
-    private long count = 1L;//共几页
-    private long size = 5;//每页多少个
+    private long pageIndex = 0;//当前第几页
+    private long pageTotal = 1L;//共几页
+    private long countPerPage = 5;//每页多少个
     private List<T> item = new ArrayList<>(0);
 
     public Page() {
     }
 
-    public Page(long index, long count, long size, List<T> item) {
-        this.index = index;
-        this.count = count;
-        this.size = size;
+    public Page(long pageIndex, long pageTotal, long countPerPage, List<T> item) {
+        this.pageIndex = pageIndex;
+        this.pageTotal = pageTotal;
+        this.countPerPage = countPerPage;
         this.item = item;
     }
 
     @Override
     public String toString() {
         return "Page{" +
-                "index=" + index +
-                ", count=" + count +
-                ", size=" + size +
+                "pageIndex=" + pageIndex +
+                ", pageTotal=" + pageTotal +
+                ", countPerPage=" + countPerPage +
                 ", itemSize=" + item.size() +
                 '}';
     }
 
-    public long getIndex() {
-        return index;
+    public long getPageIndex() {
+        return pageIndex;
     }
 
-    public void setIndex(long index) {
-        this.index = index;
+    public void setPageIndex(long pageIndex) {
+        this.pageIndex = pageIndex;
     }
 
-    public long getCount() {
-        return count;
+    public long getPageTotal() {
+        return pageTotal;
     }
 
-    public void setCount(long count) {
-        this.count = count;
+    public void setPageTotal(long pageTotal) {
+        this.pageTotal = pageTotal;
     }
 
-    public long getSize() {
-        return size;
+    public long getCountPerPage() {
+        return countPerPage;
     }
 
-    public void setSize(long size) {
-        this.size = size;
+    public void setCountPerPage(long countPerPage) {
+        this.countPerPage = countPerPage;
     }
 
     public List<T> getItem() {
