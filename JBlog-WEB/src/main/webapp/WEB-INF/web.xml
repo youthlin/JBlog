@@ -44,7 +44,7 @@
     </filter>
     <filter-mapping>
         <filter-name>Set Character Encoding</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>*.xhtml</url-pattern>
     </filter-mapping>
     <!-- 字符编码转换结束 -->
 
@@ -58,4 +58,12 @@
         <url-pattern>/dashboard/*</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>ConnectionFilter</filter-name>
+        <filter-class>com.youthlin.jblog.filter.ConnectionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ConnectionFilter</filter-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </filter-mapping>
 </web-app>

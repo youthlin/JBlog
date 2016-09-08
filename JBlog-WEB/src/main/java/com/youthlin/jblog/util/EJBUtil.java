@@ -1,27 +1,21 @@
 package com.youthlin.jblog.util;
 
-import com.youthlin.jblog.controller.UserBean;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.Hashtable;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by lin on 2016-09-02-002.
- * 工具类
+ * 获取远程对象工具类
  */
 public class EJBUtil {
-    private static final Logger log = LoggerFactory.getLogger(UserBean.class);
+    private static final Logger log = LoggerFactory.getLogger(EJBUtil.class);
     private static ConcurrentHashMap<Class, Object> map = new ConcurrentHashMap<>();
-    private static OpenEntityManagerHandler handler = new OpenEntityManagerHandler();
 
     /**
      * 获取远程对象,第一次获取后会缓存起来，之后获取的将是缓存的对象
@@ -61,7 +55,6 @@ public class EJBUtil {
                     + clazz.getSimpleName() + "Impl" + "!" + clazz.getName();
             log.debug("EJB 全名 =" + fullName);
             result = context.lookup(fullName);
-            result = handler.bind(result, clazz);
             log.debug("result={},class={}", result, result.getClass());
             return (T) result;
         } catch (NamingException e) {
@@ -77,33 +70,5 @@ public class EJBUtil {
         }
         log.warn(" 获取远程对象失败 ");
         return null;
-    }
-
-    public static class OpenEntityManagerHandler implements InvocationHandler {
-        private Object obj;
-
-        Object bind(Object obj) {
-            this.obj = obj;
-            return Proxy.newProxyInstance(obj.getClass().getClassLoader(), obj.getClass().getInterfaces(), this);
-        }
-
-        @SuppressWarnings("unchecked")
-        <T> T bind(Object obj, Class<T> clazz) {
-            return (T) bind(obj);
-        }
-
-        @Override
-        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            Object result = null;
-            try {
-                log.debug("[开始调用{}方法]", method);
-                result = method.invoke(this.obj, args);
-                log.debug("[结束调用{}方法,返回{}]", method, result);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return result;
-        }
-
     }
 }

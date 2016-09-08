@@ -17,12 +17,19 @@
                                     value="#{postBean.newestText.title}"/>
                         </h4>
                         <div class="blog-post-meta">
-                            作者：<span class="blog-post-author">#{postBean.newestText.author}</span>
+                            作者：<span class="blog-post-author">#{postBean.newestText.author.username}</span>
                             发表时间：<span class="blog-post-publish-date">#{postBean.newestText.publishDate}</span>
                             分类：<span class="blog-post-publish-category">#{postBean.newestText.category.name}</span>
                         </div>
                         <div class="blog-post-content">
-                            #{postBean.newestText.content.substring(0,200)}
+                            <c:choose>
+                                <c:when test="#{postBean.newestText.content.length() lt 200}">
+                                    #{postBean.newestText.content}
+                                </c:when>
+                                <c:otherwise>
+                                    #{postBean.newestText.content.substring(0,200)}
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </div>
                 </c:when>
@@ -43,7 +50,7 @@
                                     value="#{postBean.newestImage.title}"/>
                         </h4>
                         <div class="blog-post-meta">
-                            作者：<span class="blog-post-author">#{postBean.newestImage.author}</span>
+                            作者：<span class="blog-post-author">#{postBean.newestImage.author.username}</span>
                             发表时间：<span class="blog-post-publish-date">#{postBean.newestImage.publishDate}</span>
                             分类：<span class="blog-post-publish-category">#{postBean.newestImage.category.name}</span>
                         </div>
