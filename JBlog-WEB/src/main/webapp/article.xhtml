@@ -1,8 +1,15 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core"
                 template="/WEB-INF/templates/frontend/layout.xhtml">
-    <ui:define name="title">博文</ui:define>
+    <c:choose>
+        <c:when test="#{articleBean.post!=null}">
+            <ui:define name="title">#{articleBean.post.title} | JBlog</ui:define>
+        </c:when>
+        <c:otherwise>
+            <ui:define name="title">找不到文章 | JBlog</ui:define>
+        </c:otherwise>
+    </c:choose>
     <ui:define name="content">
-        <ui:include src="/WEB-INF/page/article/content.xhtml"/>
+        <ui:include src="/WEB-INF/page/article/singer.xhtml"/>
     </ui:define>
 </ui:composition>
