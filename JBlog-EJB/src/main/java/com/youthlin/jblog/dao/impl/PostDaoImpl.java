@@ -3,9 +3,11 @@ package com.youthlin.jblog.dao.impl;
 import com.youthlin.jblog.constant.Constant;
 import com.youthlin.jblog.dao.PostDao;
 import com.youthlin.jblog.model.Category;
+import com.youthlin.jblog.model.Page;
 import com.youthlin.jblog.model.Post;
 
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -49,6 +51,43 @@ public class PostDaoImpl extends BaseDaoImpl<Post, Long> implements PostDao {
         TypedQuery<Post> query = em.createQuery("select p from Post as p where p.type=:type and p.status<>2", Post.class);
         query.setParameter("type", type);
         return query.getResultList();
+    }
+
+    @Override
+    public Page<Post> getTextByPage(int pageStart, int pageSize) {
+        return getByPage(pageStart, pageSize, Constant.POST_TYPE_TEXT);
+    }
+
+    @Override
+    public Page<Post> getImageByPage(int pageStart, int pageSize) {
+        return getByPage(pageStart, pageSize, Constant.POST_TYPE_IMAGE);
+    }
+
+    private Page<Post> getByPage(int pageStart, int pageSize, String type) {
+        String jpql = "select p from Post as p where p.status=0 and p.type=:type order by p.publishDate desc ";
+        TypedQuery<Post> query = em.createQuery(jpql, Post.class);
+        query.setParameter("type", type);
+        query.setFirstResult(pageStart);
+        query.setMaxResults(pageSize);
+        List<Post> posts = query.getResultList();
+        System.out.println("该页文章有：" + posts);
+        Query q = em.createQuery("select count(p.id) from Post as p where p.status<>2 and p.type=:type");
+        q.setParameter("type", type);
+        Long count;
+        count = (Long) q.getSingleResult();
+        if (count == null) {
+            count = 1L;
+        } else {
+            count = count / pageSize;
+        }
+        Page<Post> page = new Page<>();
+        page.setIndex(pageStart + 1);
+        page.setCount(count);
+        page.setSize(pageSize);
+        if (posts != null && posts.size() > 0) {
+            page.setItem(posts);
+        }
+        return page;
     }
 
     private Post getNewestPost(String type) {

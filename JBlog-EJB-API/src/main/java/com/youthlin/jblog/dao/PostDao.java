@@ -1,6 +1,7 @@
 package com.youthlin.jblog.dao;
 
 import com.youthlin.jblog.model.Category;
+import com.youthlin.jblog.model.Page;
 import com.youthlin.jblog.model.Post;
 
 import javax.ejb.Remote;
@@ -21,4 +22,8 @@ public interface PostDao extends BaseDao<Post, Long> {
     List<Post> getByCategoryId(Long id);
 
     List<Post> getByType(String type);
+
+    Page<Post> getTextByPage(int pageStart, int pageSize);
+
+    Page<Post> getImageByPage(int pageStart, int pageSize);
 }

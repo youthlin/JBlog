@@ -5,9 +5,14 @@ package com.youthlin.jblog.constant;
  * 常量
  */
 public class Constant {
+    public static final String BLOG_TITLE = "blog_title";
+    public static final String BLOG_TITLE_DEFAULT = "JBlog";
+    public static final String BLOG_DESCRIPTION = "blog_description";
+    public static final String BLOG_DESCRIPTION_DEFAULT = "个人博客系统 - JavaEE / EJB / JPA / JSF - Powered By Youth．霖";
+    public static final String PAGE_SIZE = "page_size";//每页几项
+    public static final String PAGE_SIZE_DEFAULT = "5";
+
     public static final String ADMIN = "admin";
-    public static final String BLOG_TITLE = "JBlog";
-    public static final String BLOG_DESCRIPTION = "个人博客系统 - JavaEE / EJB / JPA / JSF - Powered By Youth．霖";
     public static final String CURRENT_USER = "current_user";
 
     public static final String POST_TYPE_TEXT = "text";
