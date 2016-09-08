@@ -31,9 +31,9 @@ public class CharacterEncodingFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
         log.trace("进入编码拦截方法");
+        request.setCharacterEncoding("UTF-8");
         HttpServletRequest req = (HttpServletRequest) request;
         log.debug("filter url:{}?{},param map={}", req.getRequestURI(), req.getQueryString(), req.getParameterMap());
-        request.setCharacterEncoding("UTF-8");
         log.debug("设置编码为{}", request.getCharacterEncoding());
         chain.doFilter(request, response);
         log.trace("退出编码拦截方法");

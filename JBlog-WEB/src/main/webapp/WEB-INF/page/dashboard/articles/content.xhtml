@@ -16,6 +16,7 @@
                 <th>状态</th>
                 <th>浏览量</th>
                 <th>评论</th>
+                <th>操作</th>
             </tr>
             </thead>
             <tbody>
@@ -46,7 +47,21 @@
                         </c:when>
                     </c:choose>
                     <td>
-
+                        <c:choose>
+                            <c:when test="${text.commentCount eq 0}">
+                                ${allowComment} | 暂无评论
+                            </c:when>
+                            <c:otherwise>
+                                ${allowComment} | 有${text.commentCount}条评论
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td>
+                        <h:form>
+                            <input type="hidden" name="id" value="${text.id}"/>
+                            <h:commandLink action="#{postBean.toUpdatePostPage}" value="编辑"/> |
+                            <h:link outcome="write?id=${text.id}" value="删除"/>
+                        </h:form>
                     </td>
                 </tr>
             </c:forEach>

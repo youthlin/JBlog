@@ -43,6 +43,7 @@
                     <tr>
                         <th>序号</th>
                         <th>名称</th>
+                        <th>文章</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -53,6 +54,7 @@
                         <tr>
                             <td>${index}</td>
                             <td>#{text.name}</td>
+                            <td>#{text.postCount}</td>
                             <td>
                                 <c:if test="#{text.name != categoryBean.textUncategory.name}">
                                     <a href="#edit-modal" class="edit-text-category-link"
@@ -81,6 +83,7 @@
                     <tr>
                         <th>序号</th>
                         <th>名称</th>
+                        <th>照片</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -91,6 +94,7 @@
                         <tr>
                             <td>${index}</td>
                             <td>#{image.name}</td>
+                            <td>#{image.postCount}</td>
                             <td>
                                 <c:if test="#{image.name != categoryBean.imageUncategory.name}">
                                     <a href="#edit-modal" class="edit-text-category-link"

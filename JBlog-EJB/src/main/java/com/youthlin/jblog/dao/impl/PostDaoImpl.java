@@ -29,7 +29,7 @@ public class PostDaoImpl extends BaseDaoImpl<Post, Long> implements PostDao {
     public List<Post> getByCategory(Category category) {
         log.debug("获取分类{}下的文章", category);
         TypedQuery<Post> query = em.createQuery(
-                "select p from Post as p where p.status=0 and p.category=:category", Post.class);
+                "select p from Post as p where p.status<>2 and p.category=:category", Post.class);
         query.setParameter("category", category);
         return query.getResultList();
     }

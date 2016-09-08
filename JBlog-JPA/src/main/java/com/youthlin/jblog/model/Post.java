@@ -43,8 +43,8 @@ public class Post implements Serializable {
 
     @ManyToOne
     private User author;                            //作者
-    @OneToMany(mappedBy = "post")
-    private List<Comment> comments = new ArrayList<>(); //该文章或照片下的评论
+    @Column(name = "comment_count")
+    private Long commentCount = 0L;
     @ManyToOne
     private Category category;                      //所属分类
     @ManyToMany(mappedBy = "likedPost")
@@ -62,7 +62,7 @@ public class Post implements Serializable {
                 ", allowComment=" + allowComment +
                 ", status=" + status +
                 ", author=" + author.getUsername() +
-                ", comments=" + comments +
+                ", commentCount=" + commentCount +
                 ", category=" + category +
                 ", likedUser=" + likedUser +
                 '}';
@@ -117,14 +117,6 @@ public class Post implements Serializable {
         this.author = author;
     }
 
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
     public Boolean getAllowComment() {
         return allowComment;
     }
@@ -164,5 +156,13 @@ public class Post implements Serializable {
     public void setLikedUser(List<User> likedUser) {
         this.likedUser = likedUser;
     }
-    //endregion
+
+    public Long getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(Long commentCount) {
+        this.commentCount = commentCount;
+    }
+//endregion
 }

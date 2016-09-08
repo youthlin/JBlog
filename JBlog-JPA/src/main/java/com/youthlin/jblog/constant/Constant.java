@@ -5,6 +5,7 @@ package com.youthlin.jblog.constant;
  * 常量
  */
 public class Constant {
+    public static final String ADMIN = "admin";
     public static final String BLOG_TITLE = "JBlog";
     public static final String BLOG_DESCRIPTION = "个人博客系统 - JavaEE / EJB / JPA / JSF - Powered By Youth．霖";
     public static final String CURRENT_USER = "current_user";
@@ -12,7 +13,7 @@ public class Constant {
     public static final String POST_TYPE_TEXT = "text";
     public static final String POST_TYPE_IMAGE = "image";
     public static byte POST_PUBLISH = 0;
-    public static byte POST_DRIFT = 1;
+    public static byte POST_DRAFT = 1;
     public static byte POST_DELETED = 2;
     public static final String CATEGORY_TEXT_UNCATEGORY_NAME = "默认分类";
     public static final String CATEGORY_IMAGE_UNCATEGORY_NAME = "默认相册";

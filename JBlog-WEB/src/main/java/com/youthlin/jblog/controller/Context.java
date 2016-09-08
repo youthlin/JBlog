@@ -9,6 +9,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by lin on 2016-09-04-004.
@@ -18,26 +20,32 @@ import javax.servlet.http.HttpSession;
 @SessionScoped
 public class Context {
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
+    private static final Map<String, Object> map = new HashMap<>();
+
+    public static Map<String, Object> getMap() {
+        return map;
+    }
 
     public static User getCurrentUser() {
-        HttpSession session = (HttpSession) FacesContext
-                .getCurrentInstance()
-                .getExternalContext()
-                .getSession(true);
-        Object o = session.getAttribute(Constant.CURRENT_USER);
-        try {
-            return (User) o;
-        } catch (ClassCastException e) {
-            return null;
-        }
+        return (User) map.get(Constant.CURRENT_USER);
     }
 
     public static void setCurrentUser(User currentUser) {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         session.setAttribute(Constant.CURRENT_USER, currentUser);
+        map.put(Constant.CURRENT_USER, currentUser);
     }
 
     public User getUser() {
         return Context.getCurrentUser();
     }
+
+    public Map<String, Object> getHashMap() {
+        return Context.map;
+    }
+
+    static boolean allTextPostListShouldBeUpdated = false;
+    static boolean allImagePostListShouldBeUpdated = false;
+    static boolean textCategoryListShouldBeUpdated = false;
+    static boolean imageCategoryListShouldBeUpdated = false;
 }

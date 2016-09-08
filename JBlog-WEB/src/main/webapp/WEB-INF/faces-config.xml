@@ -22,4 +22,21 @@
         </navigation-case>
     </navigation-rule>
 
+    <navigation-rule>
+        <from-view-id>/dashboard/articles.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>write</from-outcome>
+            <to-view-id>/dashboard/write.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/dashboard/write.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>articles</from-outcome>
+            <to-view-id>/dashboard/articles.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

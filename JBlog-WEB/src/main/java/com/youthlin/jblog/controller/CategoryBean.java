@@ -21,8 +21,8 @@ import java.util.List;
 @ManagedBean
 @SessionScoped
 public class CategoryBean {
-    private static final Logger log = LoggerFactory.getLogger(CategoryBean.class);
-    private static final String CATEGORY = "category";
+    private final Logger log = LoggerFactory.getLogger(CategoryBean.class);
+    private final String CATEGORY = "category";
     private CategoryDao categoryDao = EJBUtil.getBean(CategoryDao.class);
     private PostDao postDao = EJBUtil.getBean(PostDao.class);
     private Long id;
@@ -112,12 +112,16 @@ public class CategoryBean {
                     c.setStatus(Constant.DELETED_CATEGORY_TEXT_TYPE);
                 } else {
                     log.trace("该分类下有{}篇文章", c.getPostCount());
+                    log.trace("删除分类导致文章归属变化，通知文章列表应该更新");
+                    Context.allTextPostListShouldBeUpdated = true;
                     List<Post> posts = postDao.getByCategory(c);
                     for (Post post : posts) {
                         post.setCategory(textUncategory);
                         postDao.update(post);
                     }
+                    textUncategory.setPostCount(textUncategory.getPostCount() + c.getPostCount());
                     c.setPostCount(0L);
+                    c.setStatus(Constant.DELETED_CATEGORY_TEXT_TYPE);
                     textUncategory = categoryDao.update(textUncategory);
                     log.trace("已将该分类下文章归到id={},name={}分类下", textUncategory.getId(), textUncategory.getName());
                 }
@@ -127,12 +131,16 @@ public class CategoryBean {
                     c.setStatus(Constant.DELETED_CATEGORY_IMAGE_TYPE);
                 } else {
                     log.trace("该分类下有{}张图片", c.getPostCount());
+                    log.trace("删除分类导致照片归属变化，通知照片列表应该更新");
+                    Context.allImagePostListShouldBeUpdated = true;
                     List<Post> posts = postDao.getByCategoryId(c.getId());
                     for (Post post : posts) {
                         post.setCategory(imageUncategory);
                         postDao.update(post);
                     }
+                    imageUncategory.setPostCount(imageUncategory.getPostCount() + c.getPostCount());
                     c.setPostCount(0L);
+                    c.setStatus(Constant.DELETED_CATEGORY_IMAGE_TYPE);
                     imageUncategory = categoryDao.update(imageUncategory);
                     log.trace("已将该分类下图片归到id={},name={}分类下", imageUncategory.getId(), imageUncategory.getName());
                 }
@@ -145,7 +153,7 @@ public class CategoryBean {
     }
 
     public SelectItem[] getAllTextCategory() {
-        SelectItem[] selectItems = new SelectItem[textCategory.size()];
+        SelectItem[] selectItems = new SelectItem[getTextCategory().size()];
         for (int i = 0; i < textCategory.size(); i++) {
             selectItems[i] = new SelectItem(textCategory.get(i).getId(), textCategory.get(i).getName());
         }
@@ -225,6 +233,11 @@ public class CategoryBean {
     }
 
     public List<Category> getTextCategory() {
+        if (Context.textCategoryListShouldBeUpdated) {
+            log.trace("获取最新文章分类列表");
+            textCategory = categoryDao.findAllTextCategory();
+            Context.textCategoryListShouldBeUpdated = false;
+        }
         return textCategory;
     }
 
@@ -233,6 +246,11 @@ public class CategoryBean {
     }
 
     public List<Category> getImageCategory() {
+        if (Context.imageCategoryListShouldBeUpdated) {
+            log.trace("获取最新相册分类列表");
+            imageCategory = categoryDao.findAllImageCategory();
+            Context.imageCategoryListShouldBeUpdated = false;
+        }
         return imageCategory;
     }
 
