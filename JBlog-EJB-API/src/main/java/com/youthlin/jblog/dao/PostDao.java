@@ -19,4 +19,6 @@ public interface PostDao extends BaseDao<Post, Long> {
     List<Post> getByCategory(Category category);
 
     List<Post> getByCategoryId(Long id);
+
+    List<Post> getByType(String type);
 }

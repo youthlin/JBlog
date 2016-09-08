@@ -28,14 +28,14 @@ public class MyFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        log.debug("filter url:{}?{},param map={}", req.getRequestURI(), req.getQueryString(), req.getParameterMap());
+        log.trace("进入仪表盘拦截方法");
         if (((HttpServletRequest) request).getSession(true).getAttribute(Constant.CURRENT_USER) == null) {
             log.debug("未登录！");
-            ((HttpServletResponse) response).sendRedirect(req.getServletContext().getContextPath() + "/login.xhtml");
+            ((HttpServletResponse) response).sendRedirect(request.getServletContext().getContextPath() + "/login.xhtml");
         } else {
             chain.doFilter(request, response);
         }
+        log.trace("退出仪表盘拦截方法");
     }
 
     @Override

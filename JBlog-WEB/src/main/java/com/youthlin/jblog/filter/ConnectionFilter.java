@@ -28,16 +28,16 @@ public class ConnectionFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-//        try {
-//            utx.begin();
-//            log.debug("开始UserTransaction");
+        try {
+            utx.begin();
+            log.debug("开始UserTransaction");
             chain.doFilter(request, response);
-//            log.debug("结束UserTransaction");
-//            utx.commit();
-//        } catch (Exception e) {
-//            log.debug("UserTransaction异常");
-//            e.printStackTrace();
-//        }
+            log.debug("结束UserTransaction");
+            utx.commit();
+        } catch (Exception e) {
+            log.debug("UserTransaction异常");
+            e.printStackTrace();
+        }
 
     }
 

@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by lin on 2016-09-07-007.
@@ -32,6 +34,7 @@ public class PostBean {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private Post newestText;
     private Post newestImage;
+    private List<Post> allTextPost;
 
     public PostBean() {
         clear();
@@ -69,6 +72,13 @@ public class PostBean {
         update();
         log.debug("发表文章成功");
         return WRITE;
+    }
+
+    public List<Post> getAllTextPost() {
+        if (allTextPost == null) {
+            allTextPost = postDao.getByType(Constant.POST_TYPE_TEXT);
+        }
+        return allTextPost;
     }
 
 

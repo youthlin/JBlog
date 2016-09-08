@@ -28,7 +28,8 @@ public class PostDaoImpl extends BaseDaoImpl<Post, Long> implements PostDao {
     @Override
     public List<Post> getByCategory(Category category) {
         log.debug("获取分类{}下的文章", category);
-        TypedQuery<Post> query = em.createQuery("select p from Post as p where p.status=0 and p.category=:category", Post.class);
+        TypedQuery<Post> query = em.createQuery(
+                "select p from Post as p where p.status=0 and p.category=:category", Post.class);
         query.setParameter("category", category);
         return query.getResultList();
     }
@@ -36,8 +37,17 @@ public class PostDaoImpl extends BaseDaoImpl<Post, Long> implements PostDao {
     @Override
     public List<Post> getByCategoryId(Long id) {
         log.debug("获取分类id={}下的文章", id);
-        TypedQuery<Post> query = em.createQuery("select p from Post as p where p.status=0 and p.category.id=:id", Post.class);
+        TypedQuery<Post> query = em.createQuery(
+                "select p from Post as p where p.status=0 and p.category.id=:id and p.status <> 2", Post.class);
         query.setParameter("id", id);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Post> getByType(String type) {
+        log.debug("获取类型Post");
+        TypedQuery<Post> query = em.createQuery("select p from Post as p where p.type=:type", Post.class);
+        query.setParameter("type", type);
         return query.getResultList();
     }
 
