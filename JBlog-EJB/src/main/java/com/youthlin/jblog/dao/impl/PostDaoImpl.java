@@ -46,7 +46,7 @@ public class PostDaoImpl extends BaseDaoImpl<Post, Long> implements PostDao {
     @Override
     public List<Post> getByType(String type) {
         log.debug("获取类型Post");
-        TypedQuery<Post> query = em.createQuery("select p from Post as p where p.type=:type", Post.class);
+        TypedQuery<Post> query = em.createQuery("select p from Post as p where p.type=:type and p.status<>2", Post.class);
         query.setParameter("type", type);
         return query.getResultList();
     }
@@ -54,11 +54,9 @@ public class PostDaoImpl extends BaseDaoImpl<Post, Long> implements PostDao {
     private Post getNewestPost(String type) {
         log.debug("获取最新" + type);
         TypedQuery<Post> query = em.createQuery(
-                "select p from Post as p where p.type=:type and p.status=:status order by p.publishDate desc",
+                "select p from Post as p where p.type=:type and p.status=0 order by p.publishDate desc",
                 Post.class);
         query.setParameter("type", type);
-        Byte status = 0;
-        query.setParameter("status", status);
         query.setFirstResult(0);
         query.setMaxResults(1);
         return getSingleResult(query);

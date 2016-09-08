@@ -60,7 +60,7 @@
                         <h:form>
                             <input type="hidden" name="id" value="${text.id}"/>
                             <h:commandLink action="#{postBean.toUpdatePostPage}" value="编辑"/> |
-                            <h:link outcome="write?id=${text.id}" value="删除"/>
+                            <h:commandLink action="#{postBean.delete}" value="删除"/>
                         </h:form>
                     </td>
                 </tr>

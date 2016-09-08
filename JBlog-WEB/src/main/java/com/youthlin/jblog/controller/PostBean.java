@@ -45,6 +45,7 @@ public class PostBean {
     }
 
     private void update() {
+        log.trace("获取最新POST");
         newestText = postDao.getNewestText();
         newestImage = postDao.getNewestImage();
         allTextPost = null;
@@ -135,6 +136,23 @@ public class PostBean {
         return ALL_POST;
     }
 
+    public String delete() {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        id = Long.valueOf(request.getParameter("id"));
+        Post post = postDao.find(Post.class, id);
+        if (post != null) {
+            Category c = post.getCategory();
+            post.setStatus(Constant.POST_DELETED);
+            c.setPostCount(c.getPostCount() - 1);
+            categoryDao.update(c);
+            postDao.update(post);
+            update();
+            log.trace("删除文章成功\n分类里文章数目有变化，通知分类列表应该更新");
+            Context.textCategoryListShouldBeUpdated = true;
+        }
+        return ALL_POST;
+    }
+
     public List<Post> getAllTextPost() {
         if (allTextPost == null || Context.allTextPostListShouldBeUpdated) {
             log.trace("获取最新文章列表");
@@ -199,4 +217,5 @@ public class PostBean {
     public void setId(Long id) {
         this.id = id;
     }
+
 }
