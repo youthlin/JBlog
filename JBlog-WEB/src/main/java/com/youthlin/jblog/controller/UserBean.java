@@ -97,7 +97,7 @@ public class UserBean {
         } else {
             log.debug("登录失败");
             loginMsg = "用户名或密码错误";
-            return "login";
+            return "index";
         }
     }
 

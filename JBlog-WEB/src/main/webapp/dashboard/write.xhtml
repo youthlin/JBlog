@@ -1,8 +1,17 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 template="/WEB-INF/templates/backend/layout.xhtml">
     <ui:define name="title">撰写文章 - 仪表盘 | JBlog</ui:define>
     <ui:define name="content">
-        <ui:include src="/WEB-INF/page/dashboard/write/content.xhtml"/>
+        <c:choose>
+            <c:when test="#{context.user.status eq 0}">
+                <!--0管理员 1访客 2删除-->
+                <ui:include src="/WEB-INF/page/dashboard/write/content.xhtml"/>
+            </c:when>
+            <c:otherwise>
+                <ui:include src="/WEB-INF/page/403.xhtml"/>
+            </c:otherwise>
+        </c:choose>
     </ui:define>
 </ui:composition>

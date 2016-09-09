@@ -16,7 +16,9 @@
                 <th>状态</th>
                 <th>浏览量</th>
                 <th>评论</th>
-                <th>操作</th>
+                <c:if test="#{context.user.status eq 0}">
+                    <th>操作</th>
+                </c:if>
             </tr>
             </thead>
             <tbody>
@@ -56,13 +58,15 @@
                             </c:otherwise>
                         </c:choose>
                     </td>
-                    <td>
-                        <h:form>
-                            <input type="hidden" name="id" value="${text.id}"/>
-                            <h:commandLink action="#{postBean.toUpdatePostPage}" value="编辑"/> |
-                            <h:commandLink action="#{postBean.delete}" value="删除"/>
-                        </h:form>
-                    </td>
+                    <c:if test="#{context.user.status eq 0}">
+                        <td>
+                            <h:form>
+                                <input type="hidden" name="id" value="${text.id}"/>
+                                <h:commandLink action="#{postBean.toUpdatePostPage}" value="编辑"/> |
+                                <h:commandLink action="#{postBean.delete}" value="删除"/>
+                            </h:form>
+                        </td>
+                    </c:if>
                 </tr>
             </c:forEach>
             </tbody>
