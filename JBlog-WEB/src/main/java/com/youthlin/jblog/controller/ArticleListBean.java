@@ -33,13 +33,13 @@ public class ArticleListBean {
         int size = 5;
         try {
             page = Integer.parseInt(pageStr);
-            size = Integer.parseInt(Constant.PAGE_SIZE_DEFAULT);
+            size = Integer.parseInt(Constant.SETTINGS_TEXT_COUNT_PER_PAGE_DEFAULT);
         } catch (Exception e) {
-            //默认值1
+            //默认值
         }
-        String sizeStr = settingsDao.get(Constant.PAGE_SIZE);
+        String sizeStr = settingsDao.get(Constant.SETTINGS_TEXT_COUNT_PER_PAGE);
         if (sizeStr == null) {
-            settingsDao.add(Constant.PAGE_SIZE, Constant.PAGE_SIZE_DEFAULT);//5
+            settingsDao.add(Constant.SETTINGS_TEXT_COUNT_PER_PAGE, Constant.SETTINGS_TEXT_COUNT_PER_PAGE_DEFAULT);//5
         } else {
             try {
                 size = Integer.parseInt(sizeStr);

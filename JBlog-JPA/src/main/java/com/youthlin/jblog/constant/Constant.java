@@ -9,8 +9,6 @@ public class Constant {
     public static final String BLOG_TITLE_DEFAULT = "JBlog";
     public static final String BLOG_DESCRIPTION = "blog_description";
     public static final String BLOG_DESCRIPTION_DEFAULT = "个人博客系统 - JavaEE / EJB / JPA / JSF - Powered By Youth．霖";
-    public static final String PAGE_SIZE = "page_size";//每页几项
-    public static final String PAGE_SIZE_DEFAULT = "5";
 
     public static final String ADMIN = "admin";
     public static final String CURRENT_USER = "current_user";
@@ -28,8 +26,10 @@ public class Constant {
     public static final byte DELETED_CATEGORY_IMAGE_TYPE = 3;
 
     public static final String SETTINGS_TEXT_COUNT_PER_PAGE = "text_count_per_page";
+    public static final String SETTINGS_TEXT_COUNT_PER_PAGE_DEFAULT = "5";
     public static final String SETTINGS_IMAGE_COUNT_PER_PAGE = "image_count_per_page";
     public static final String SETTINGS_COMMENT_COUNT_PER_PAGE = "comment_count_per_page";
+    public static final String SETTINGS_COMMENT_COUNT_PER_PAGE_DEFAULT = "5";
     public static final String SETTINGS_BLOG_ABOUT = "about_blog";
 
     public static final String PROFILE_DEFAULT_GRAVATAR_URL = "";

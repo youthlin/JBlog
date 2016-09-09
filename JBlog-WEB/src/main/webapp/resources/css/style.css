@@ -312,3 +312,20 @@ body.fixed-top {
     display: inline-block;
     border-radius: 50%;
 }
+
+li.blog-post-comment-item {
+    list-style: none;
+}
+
+img.blog-post-comment-item-gravatar {
+    position: relative;
+    left: -70px;
+    top: -30px;
+    float: left;
+}
+
+.blog-post-comment-item-meta {
+    position: relative;
+    bottom: -20px;
+    margin-bottom: 10px;
+}

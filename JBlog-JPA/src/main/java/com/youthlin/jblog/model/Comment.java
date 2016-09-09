@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -17,7 +18,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "t_comment")
-public class Comment {
+public class Comment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,6 +26,8 @@ public class Comment {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "publish_date")
     private Date publishDate;           //发表时间
+    @Column(columnDefinition = "tinyint(1)")
+    private Boolean deleted = false;    //已删除
     @ManyToOne
     private Post post;                  //对应的文章或照片
     @ManyToOne
@@ -82,6 +85,13 @@ public class Comment {
         this.author = author;
     }
 
-    //endregion
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+//endregion
 
 }

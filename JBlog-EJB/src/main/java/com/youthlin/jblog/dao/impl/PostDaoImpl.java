@@ -106,13 +106,13 @@ public class PostDaoImpl extends BaseDaoImpl<Post, Long> implements PostDao {
         List<Post> posts = query.getResultList();
         Query q = em.createQuery("select count(p.id) from Post as p where p.status<>2 and p.type=:type");
         q.setParameter("type", type);
-        Long count;
-        count = (Long) q.getSingleResult();
-        if (count == null) {
-            count = 1L;
-        } else {
-            count = count / pageSize + 1;
+        Integer count;
+        try {
+            count = (Integer) q.getSingleResult();
+        } catch (Exception e) {
+            count = 1;
         }
+        count = count / pageSize + 1;
         Page<Post> page = new Page<>();
         page.setPageIndex(pageStart);
         page.setPageTotal(count);
