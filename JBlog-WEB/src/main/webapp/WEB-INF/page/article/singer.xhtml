@@ -1,7 +1,8 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <!--开始 文章详情-->
     <c:choose>
         <c:when test="#{articleBean.post!=null}">
@@ -20,8 +21,30 @@
 
                 <nav>
                     <ul class="pager">
-                        <li><a href="#">上一篇</a></li>
-                        <li><a href="#">下一篇</a></li>
+                        <c:choose>
+                            <c:when test="#{articleBean.prevId gt 0}">
+                                <li>
+                                    <h:link value="上一篇" outcome="article">
+                                        <f:param name="id" value="#{articleBean.prevId}"/>
+                                    </h:link>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li><span>上一篇</span></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="#{articleBean.nextId gt 0}">
+                                <li>
+                                    <h:link value="下一篇" outcome="article">
+                                        <f:param name="id" value="#{articleBean.nextId}"/>
+                                    </h:link>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li><span>下一篇</span></li>
+                            </c:otherwise>
+                        </c:choose>
                     </ul>
                 </nav>
 

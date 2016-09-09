@@ -63,14 +63,47 @@ public class PostDaoImpl extends BaseDaoImpl<Post, Long> implements PostDao {
         return getByPage(pageStart, pageSize, Constant.POST_TYPE_IMAGE);
     }
 
+    @Override
+    public long[] getPrevAndNextId(Post p) {
+        long[] ids = {-1, -1};
+        //找前一篇和后一篇
+        Post[] posts = getPrevAndNext(p);
+        if (posts != null && posts.length == 2) {
+            if (posts[0] != null) {
+                ids[0] = posts[0].getId();
+            }
+            if (posts[1] != null) {
+                ids[1] = posts[1].getId();
+            }
+        }
+        return ids;
+    }
+
+    private Post[] getPrevAndNext(Post p) {
+        TypedQuery<Post> query = em.createQuery("select p from Post as p " +
+                " where p.publishDate<:publish and p.status<>2 and p.type=:type order by p.publishDate desc ", Post.class);
+        query.setParameter("publish", p.getPublishDate());
+        query.setParameter("type", p.getType());
+        query.setFirstResult(0);
+        query.setMaxResults(1);
+        Post prev = getSingleResult(query);
+        query = em.createQuery("select p from Post as p " +
+                " where p.publishDate>:publish and p.status<>2 and p.type=:type order by p.publishDate ", Post.class);
+        query.setParameter("publish", p.getPublishDate());
+        query.setParameter("type", p.getType());
+        query.setFirstResult(0);
+        query.setMaxResults(1);
+        Post next = getSingleResult(query);
+        return new Post[]{prev, next};
+    }
+
     private Page<Post> getByPage(int pageStart, int pageSize, String type) {
-        String jpql = "select p from Post as p where p.status=0 and p.type=:type order by p.publishDate desc ";
-        TypedQuery<Post> query = em.createQuery(jpql, Post.class);
+        TypedQuery<Post> query = em.createQuery(
+                "select p from Post as p where p.status=0 and p.type=:type order by p.publishDate desc ", Post.class);
         query.setParameter("type", type);
         query.setFirstResult((pageStart - 1) * pageSize);
         query.setMaxResults(pageSize);
         List<Post> posts = query.getResultList();
-        System.out.println("该页文章有：" + posts);
         Query q = em.createQuery("select count(p.id) from Post as p where p.status<>2 and p.type=:type");
         q.setParameter("type", type);
         Long count;

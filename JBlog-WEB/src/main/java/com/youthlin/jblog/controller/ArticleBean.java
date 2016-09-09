@@ -31,18 +31,30 @@ public class ArticleBean {
         try {
             id = Long.parseLong(strId);
         } catch (Exception e) {
-            //
+            log.debug("参数错误，id参数只接受数字");
         }
         if (id != -1) {
             post = postDao.find(Post.class, id);
             if (post == null) {
+                log.debug("未找到id={}对应的文章", id);
                 post = postDao.getNewestText();
             }
         } else post = postDao.getNewestText();
+        long[] prevAndNextId = postDao.getPrevAndNextId(post);
+        prevId = prevAndNextId[0];
+        nextId = prevAndNextId[1];
     }
 
     public Post getPost() {
         return post;
+    }
+
+    public long getPrevId() {
+        return prevId;
+    }
+
+    public long getNextId() {
+        return nextId;
     }
 
 }
