@@ -14,6 +14,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Created by lin on 2016-09-01-001.
@@ -29,7 +31,7 @@ public class UserBean {
 
     public UserBean() {
         log.debug("构造UserBean");
-        Context.getMap().put(Constant.ADMIN, dao.findAdmin());
+        Context.staticGetSession().setAttribute(Constant.ADMIN, dao.findAdmin());
     }
 
     public void validateUsername(FacesContext ctx, UIComponent ui, Object o) throws ValidatorException {
@@ -72,12 +74,13 @@ public class UserBean {
             user.setStatus((byte) 0);
         }
         user = dao.save(user);
-        Context.setCurrentUser(user);
+        Context.staticSetCurrentUser(user);
         if (admin == null) {
-            Context.getMap().put(Constant.ADMIN, dao.findAdmin());
+            Context.staticGetSession().setAttribute(Constant.ADMIN, dao.findAdmin());
         }
         log.debug("调用注册方法完毕,User={}", user);
-        return "index";
+
+        return toReturnUrlIfNeeded();
     }
 
     public String login() {
@@ -92,17 +95,33 @@ public class UserBean {
         if (u != null) {
             log.debug("登录成功");
             loginMsg = "";
-            Context.setCurrentUser(user = u);
-            return "index";
+            Context.staticSetCurrentUser(user = u);
+
+            return toReturnUrlIfNeeded();
         } else {
             log.debug("登录失败");
             loginMsg = "用户名或密码错误";
-            return "index";
+            return "login";
         }
     }
 
+    private String toReturnUrlIfNeeded() {
+        String url = (String) Context.staticGetSession().getAttribute(Constant.RETURN_URL);
+        if (url != null) {
+            log.debug("return url={}", url);
+            Context.staticGetSession().setAttribute(Constant.RETURN_URL, null);
+            try {
+                ((HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse()).sendRedirect(url);
+                return url + "?faces-redirect=true";
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "index";
+    }
+
     public String logout() {
-        Context.setCurrentUser(null);
+        Context.staticSetCurrentUser(null);
         return "login";
     }
 
@@ -112,7 +131,7 @@ public class UserBean {
     }
 
     public User getAdmin() {
-        return (User) Context.getMap().get(Constant.ADMIN);
+        return (User) Context.staticGetSession().getAttribute(Constant.ADMIN);
     }
 
     public void setUser(User user) {

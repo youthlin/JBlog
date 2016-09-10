@@ -16,7 +16,7 @@
                 <th>状态</th>
                 <th>浏览量</th>
                 <th>评论</th>
-                <c:if test="#{context.user.status eq 0}">
+                <c:if test="#{context.currentUser.status eq 0}">
                     <th>操作</th>
                 </c:if>
             </tr>
@@ -58,7 +58,7 @@
                             </c:otherwise>
                         </c:choose>
                     </td>
-                    <c:if test="#{context.user.status eq 0}">
+                    <c:if test="#{context.currentUser.status eq 0}">
                         <td>
                             <h:form>
                                 <input type="hidden" name="id" value="${text.id}"/>

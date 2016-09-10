@@ -20,32 +20,22 @@ import java.util.Map;
 @SessionScoped
 public class Context {
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
-    private static final Map<String, Object> map = new HashMap<>();
+    private static HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 
-    public static Map<String, Object> getMap() {
-        return map;
+    public static User staticGetCurrentUser() {
+        return (User) session.getAttribute(Constant.CURRENT_USER);
     }
 
-    public static User getCurrentUser() {
-        return (User) map.get(Constant.CURRENT_USER);
-    }
-
-    public static void setCurrentUser(User currentUser) {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+    public static void staticSetCurrentUser(User currentUser) {
         session.setAttribute(Constant.CURRENT_USER, currentUser);
-        map.put(Constant.CURRENT_USER, currentUser);
     }
 
-    public User getUser() {
-        return Context.getCurrentUser();
+    public static HttpSession staticGetSession() {
+        return session;
     }
 
-    public Map<String, Object> getHashMap() {
-        return Context.map;
+    public User getCurrentUser() {
+        return Context.staticGetCurrentUser();
     }
 
-    static boolean allTextPostListShouldBeUpdated = false;
-    static boolean allImagePostListShouldBeUpdated = false;
-    static boolean textCategoryListShouldBeUpdated = false;
-    static boolean imageCategoryListShouldBeUpdated = false;
 }

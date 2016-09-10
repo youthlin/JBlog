@@ -12,6 +12,7 @@ public class Constant {
 
     public static final String ADMIN = "admin";
     public static final String CURRENT_USER = "current_user";
+    public static final String RETURN_URL = "returnUrl";
 
     public static final String POST_TYPE_TEXT = "text";
     public static final String POST_TYPE_IMAGE = "image";
@@ -33,5 +34,11 @@ public class Constant {
     public static final String SETTINGS_BLOG_ABOUT = "about_blog";
 
     public static final String PROFILE_DEFAULT_GRAVATAR_URL = "";
+
+
+    public static final String allTextPostListShouldBeUpdated = "allTextPostListShouldBeUpdated";
+    public static final String allImagePostListShouldBeUpdated = "allImagePostListShouldBeUpdated";
+    public static final String textCategoryListShouldBeUpdated = "textCategoryListShouldBeUpdated";
+    public static final String imageCategoryListShouldBeUpdated = "imageCategoryListShouldBeUpdated";
 
 }

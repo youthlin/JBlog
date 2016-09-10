@@ -25,15 +25,16 @@ import java.util.Objects;
 @ManagedBean
 @SessionScoped
 public class PostBean {
+    private static final String ALL_POST = "articles";
+    private static final String WRITE = "write";
+    private static PostDao postDao = EJBUtil.getBean(PostDao.class);
+    private static CategoryDao categoryDao = EJBUtil.getBean(CategoryDao.class);
+    private static final Logger log = LoggerFactory.getLogger(PostBean.class);
+
     private String title;
     private String content;
     private Long categoryId;
     private Boolean allowComment = true;
-    private final String ALL_POST = "articles";
-    private final String WRITE = "write";
-    private PostDao postDao = EJBUtil.getBean(PostDao.class);
-    private CategoryDao categoryDao = EJBUtil.getBean(CategoryDao.class);
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
     private Post newestText;
     private Post newestImage;
     private List<Post> allTextPost;
@@ -71,7 +72,7 @@ public class PostBean {
         } else {
             post.setStatus(Constant.POST_DRAFT);
         }
-        User admin = Context.getCurrentUser();
+        User admin = Context.staticGetCurrentUser();
         post.setAuthor(admin);
         Category category = categoryDao.find(Category.class, categoryId);
         post.setCategory(category);
@@ -86,7 +87,7 @@ public class PostBean {
         clear();
         update();
         log.trace("分类下文章数目有变化，通知分类列表应该更新");
-        Context.textCategoryListShouldBeUpdated = true;
+        Context.staticGetSession().setAttribute(Constant.textCategoryListShouldBeUpdated, true);
         return ALL_POST;
     }
 
@@ -123,7 +124,7 @@ public class PostBean {
             categoryDao.update(old);
             categoryDao.update(category);
             log.trace("分类下文章数目有变化，通知分类列表应该更新");
-            Context.textCategoryListShouldBeUpdated = true;
+            Context.staticGetSession().setAttribute(Constant.textCategoryListShouldBeUpdated, true);
         }
         postDao.update(post);
         clear();
@@ -148,16 +149,16 @@ public class PostBean {
             postDao.update(post);
             update();
             log.trace("删除文章成功\n分类里文章数目有变化，通知分类列表应该更新");
-            Context.textCategoryListShouldBeUpdated = true;
+            Context.staticGetSession().setAttribute(Constant.textCategoryListShouldBeUpdated, true);
         }
         return ALL_POST;
     }
 
     public List<Post> getAllTextPost() {
-        if (allTextPost == null || Context.allTextPostListShouldBeUpdated) {
+        if (allTextPost == null || Context.staticGetSession().getAttribute(Constant.allTextPostListShouldBeUpdated).equals(true)) {
             log.trace("获取最新文章列表");
             allTextPost = postDao.getByType(Constant.POST_TYPE_TEXT);
-            Context.allTextPostListShouldBeUpdated = false;
+            Context.staticGetSession().setAttribute(Constant.allTextPostListShouldBeUpdated, false);
         }
         return allTextPost;
     }

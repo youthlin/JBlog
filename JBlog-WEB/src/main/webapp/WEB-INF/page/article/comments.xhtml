@@ -19,13 +19,36 @@
                                             url="${comment.author.gravatar}"/>
                         </c:otherwise>
                     </c:choose>
-
                 </li>
             </c:forEach>
         </ol>
     </div>
     <div class="well">
-        <h4>添加评论</h4>
-
+        <c:choose>
+            <c:when test="#{context.currentUser == null}">
+                <h4>发表评论</h4>
+                <h:form>
+                    <!--
+                     这里的执行顺序是，点击link后，post给本页面article.xhtml该页面需要articleBean进入其构造器
+                     他的构造器结束后渲染article.xhtml（只是渲染 还不会响应给浏览器）（因此post不能为null，否则不会进入下面这行
+                     直接在singer.xhtml里就跳到otherwise了）渲染到下面一行后再执行article的tologin方法
+                     -->
+                    <input type="hidden" name="returnUrl" value="${request.requestURI}?${request.queryString}"/>
+                    您必须<h:commandLink action="#{articleBean.toLogin}" value="登录"/>才能发表评论。没有账号？
+                    <h:commandLink action="#{articleBean.toRegister}" value="注册"/>
+                </h:form>
+            </c:when>
+            <c:otherwise>
+                <h:form styleClass="form" role="form" p:action="${request.requestURI}?id=${articleBean.post.id}">
+                    <div class="form-group">
+                        <h:outputLabel for="comment-content-area">添加评论</h:outputLabel>
+                        <h:inputTextarea id="comment-content-area" styleClass="form-control"
+                                         value="#{commentBean.content}"/>
+                    </div>
+                    <input type="hidden" name="id" value="${articleBean.post.id}"/>
+                    <h:commandButton styleClass="btn btn-primary" action="#{commentBean.comment}" value="发表评论"/>
+                </h:form>
+            </c:otherwise>
+        </c:choose>
     </div>
 </ui:composition>

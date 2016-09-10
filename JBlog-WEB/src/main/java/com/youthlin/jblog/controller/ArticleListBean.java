@@ -21,9 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 @ManagedBean
 @RequestScoped
 public class ArticleListBean {
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
-    private SettingsDao settingsDao = EJBUtil.getBean(SettingsDao.class);
-    private PostDao postDao = EJBUtil.getBean(PostDao.class);
+    private static final Logger log = LoggerFactory.getLogger(ArticleListBean.class);
+    private static SettingsDao settingsDao = EJBUtil.getBean(SettingsDao.class);
+    private static PostDao postDao = EJBUtil.getBean(PostDao.class);
+
     private Page<Post> textPage;
 
     public ArticleListBean() {

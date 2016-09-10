@@ -23,17 +23,25 @@ import javax.servlet.http.HttpServletRequest;
 @ManagedBean
 @RequestScoped
 public class ArticleBean {
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
-    private PostDao postDao = EJBUtil.getBean(PostDao.class);
-    private CommentDao commentDao = EJBUtil.getBean(CommentDao.class);
-    private SettingsDao settingsDao = EJBUtil.getBean(SettingsDao.class);
-    private Post post;
+    private static final Logger log = LoggerFactory.getLogger(ArticleBean.class);
+    private static PostDao postDao = EJBUtil.getBean(PostDao.class);
+    private static CommentDao commentDao = EJBUtil.getBean(CommentDao.class);
+    private static SettingsDao settingsDao = EJBUtil.getBean(SettingsDao.class);
+
+    private Post post = new Post();
     private long prevId = -1L;
     private long nextId = -1L;
-    private Page<Comment> comments;
+    private Page<Comment> comments = new Page<>();
 
     public ArticleBean() {
+        log.debug("构造ArticleBean");
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String returnUrl = request.getParameter(Constant.RETURN_URL);
+        if (returnUrl != null) {
+            log.debug("return url = {}", returnUrl);
+            Context.staticGetSession().setAttribute(Constant.RETURN_URL, returnUrl);
+            return;
+        }
         String strId = request.getParameter("id");
         long id = -1;
         try {
@@ -74,7 +82,28 @@ public class ArticleBean {
             }
         }
         comments = commentDao.findPageByPostId(post.getId(), commentPage, commentCountPerPage);
+
     }
+
+    public String toLogin() {
+        setReturnUrl();
+        return "login";
+    }
+
+    public String toRegister() {
+        setReturnUrl();
+        return "register";
+    }
+
+    private void setReturnUrl() {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String returnUrl = request.getParameter(Constant.RETURN_URL);
+        log.debug("to login/register page return url={}", returnUrl);//"returnUrl"
+        if (returnUrl != null) {
+            Context.staticGetSession().setAttribute(Constant.RETURN_URL, returnUrl);
+        }
+    }
+
 
     public Post getPost() {
         return post;
