@@ -42,10 +42,13 @@
                 <h:form styleClass="form" role="form" p:action="${request.requestURI}?id=${articleBean.post.id}">
                     <div class="form-group">
                         <h:outputLabel for="comment-content-area">添加评论</h:outputLabel>
+                        <small>您正以 ${context.currentUser.username} 的身份登录，若要换另一个账号，请先
+                            <h:commandLink action="#{userBean.logout}" value="退出"/></small>
                         <h:inputTextarea id="comment-content-area" styleClass="form-control"
                                          value="#{commentBean.content}"/>
                     </div>
                     <input type="hidden" name="id" value="${articleBean.post.id}"/>
+                    <input type="hidden" name="returnUrl" value="${request.requestURI}?${request.queryString}"/>
                     <h:commandButton styleClass="btn btn-primary" action="#{commentBean.comment}" value="发表评论"/>
                 </h:form>
             </c:otherwise>
