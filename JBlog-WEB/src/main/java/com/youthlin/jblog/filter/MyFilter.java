@@ -1,6 +1,6 @@
 package com.youthlin.jblog.filter;
 
-import com.youthlin.jblog.constant.Constant;
+import com.youthlin.jblog.controller.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +29,7 @@ public class MyFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.trace("进入仪表盘拦截方法");
-        if (((HttpServletRequest) request).getSession(true).getAttribute(Constant.CURRENT_USER) == null) {
+        if (Context.staticGetCurrentUser() == null) {
             log.debug("未登录！");
             ((HttpServletResponse) response).sendRedirect(request.getServletContext().getContextPath() + "/login.xhtml");
         } else {

@@ -234,7 +234,7 @@ public class CategoryBean {
     }
 
     public List<Category> getTextCategory() {
-        if (Context.staticGetSession().getAttribute(Constant.textCategoryListShouldBeUpdated).equals(true)) {
+        if (Boolean.TRUE.equals(Context.staticGetSession().getAttribute(Constant.textCategoryListShouldBeUpdated))) {
             log.trace("获取最新文章分类列表");
             textCategory = categoryDao.findAllTextCategory();
             Context.staticGetSession().setAttribute(Constant.textCategoryListShouldBeUpdated, false);
@@ -247,7 +247,7 @@ public class CategoryBean {
     }
 
     public List<Category> getImageCategory() {
-        if (Context.staticGetSession().getAttribute(Constant.imageCategoryListShouldBeUpdated).equals(true)) {
+        if (Boolean.TRUE.equals(Context.staticGetSession().getAttribute(Constant.imageCategoryListShouldBeUpdated))) {
             log.trace("获取最新相册分类列表");
             imageCategory = categoryDao.findAllImageCategory();
             Context.staticGetSession().setAttribute(Constant.imageCategoryListShouldBeUpdated, false);

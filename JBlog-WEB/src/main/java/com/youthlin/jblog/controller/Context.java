@@ -20,7 +20,15 @@ import java.util.Map;
 @SessionScoped
 public class Context {
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
-    private static HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+    private static HttpSession session;
+
+    public static void staticSetSession(HttpSession session) {
+        Context.session = session;
+    }
+
+    public static HttpSession staticGetSession() {
+        return session;
+    }
 
     public static User staticGetCurrentUser() {
         return (User) session.getAttribute(Constant.CURRENT_USER);
@@ -28,10 +36,6 @@ public class Context {
 
     public static void staticSetCurrentUser(User currentUser) {
         session.setAttribute(Constant.CURRENT_USER, currentUser);
-    }
-
-    public static HttpSession staticGetSession() {
-        return session;
     }
 
     public User getCurrentUser() {

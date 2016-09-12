@@ -1,5 +1,6 @@
 package com.youthlin.jblog.filter;
 
+import com.youthlin.jblog.controller.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +34,11 @@ public class CharacterEncodingFilter implements Filter {
         log.trace("进入编码拦截方法");
         request.setCharacterEncoding("UTF-8");
         HttpServletRequest req = (HttpServletRequest) request;
-        log.debug("filter url:{}?{},param map={}", req.getRequestURI(), req.getQueryString(), req.getParameterMap());
+        if (Context.staticGetSession() == null) {
+            log.info("create session = {}", req.getSession(true));
+            Context.staticSetSession(req.getSession(true));
+        }
+        log.debug("filter url:{}?{}", req.getRequestURI(), req.getQueryString());
         log.debug("设置编码为{}", request.getCharacterEncoding());
         chain.doFilter(request, response);
         log.trace("退出编码拦截方法");

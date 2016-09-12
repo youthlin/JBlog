@@ -155,7 +155,7 @@ public class PostBean {
     }
 
     public List<Post> getAllTextPost() {
-        if (allTextPost == null || Context.staticGetSession().getAttribute(Constant.allTextPostListShouldBeUpdated).equals(true)) {
+        if (allTextPost == null || Boolean.TRUE.equals(Context.staticGetSession().getAttribute(Constant.allTextPostListShouldBeUpdated))) {
             log.trace("获取最新文章列表");
             allTextPost = postDao.getByType(Constant.POST_TYPE_TEXT);
             Context.staticGetSession().setAttribute(Constant.allTextPostListShouldBeUpdated, false);
