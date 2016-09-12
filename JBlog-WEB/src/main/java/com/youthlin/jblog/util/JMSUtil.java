@@ -52,11 +52,13 @@ public class JMSUtil {
     /*发送消息,返回发送成功发送的条数,代码来源：课本*/
     public static int sendTextMessage(String... message) {
         int count = 0;
+        InitialContext context = null;
+        Connection connection = null;
         try {
-            InitialContext context = getInitialContext();
+            context = getInitialContext();
             ConnectionFactory factory = (ConnectionFactory) context.lookup(JMS_CONNECTION_FACTORY_JNDI);
             Destination destination = (Destination) context.lookup(JMS_Topic_JNDI);
-            Connection connection = factory.createConnection(JMS_USERNAME, JMS_PASSWORD);
+            connection = factory.createConnection(JMS_USERNAME, JMS_PASSWORD);
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             MessageProducer producer = session.createProducer(destination);
             connection.start();
@@ -69,6 +71,22 @@ public class JMSUtil {
             }
         } catch (NamingException | JMSException e) {
             e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (JMSException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (context != null) {
+                try {
+                    context.close();
+                } catch (NamingException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
         return count;
     }
