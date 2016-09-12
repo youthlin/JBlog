@@ -1,7 +1,8 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
     <div class="blog-comment-list">
         <h4 class="well">评论列表</h4>
         <ol>
@@ -25,7 +26,7 @@
     </div>
     <div class="well">
         <c:choose>
-            <c:when test="#{context.currentUser == null}">
+            <c:when test="#{userBean.currentUser == null}">
                 <h4>发表评论</h4>
                 <h:form>
                     <!--
@@ -42,7 +43,7 @@
                 <h:form styleClass="form" role="form" p:action="${request.requestURI}?id=${articleBean.post.id}">
                     <div class="form-group">
                         <h:outputLabel for="comment-content-area">添加评论</h:outputLabel>
-                        <small>您正以 ${context.currentUser.username} 的身份登录，若要换另一个账号，请先
+                        <small>您正以 ${userBean.currentUser.username} 的身份登录，若要换另一个账号，请先
                             <h:commandLink action="#{userBean.logout}" value="退出"/></small>
                         <h:inputTextarea id="comment-content-area" styleClass="form-control"
                                          value="#{commentBean.content}"/>

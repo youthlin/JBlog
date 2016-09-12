@@ -6,6 +6,7 @@ import com.youthlin.jblog.dao.PostDao;
 import com.youthlin.jblog.model.Category;
 import com.youthlin.jblog.model.Post;
 import com.youthlin.jblog.util.EJBUtil;
+import com.youthlin.jblog.util.HTTPUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -114,7 +115,7 @@ public class CategoryBean {
                 } else {
                     log.trace("该分类下有{}篇文章", c.getPostCount());
                     log.trace("删除分类导致文章归属变化，通知文章列表应该更新");
-                    Context.staticGetSession().setAttribute(Constant.allTextPostListShouldBeUpdated, Boolean.TRUE);
+                    HTTPUtil.getSession().setAttribute(Constant.allTextPostListShouldBeUpdated, Boolean.TRUE);
                     List<Post> posts = postDao.getByCategory(c);
                     for (Post post : posts) {
                         post.setCategory(textUncategory);
@@ -133,7 +134,7 @@ public class CategoryBean {
                 } else {
                     log.trace("该分类下有{}张图片", c.getPostCount());
                     log.trace("删除分类导致照片归属变化，通知照片列表应该更新");
-                    Context.staticGetSession().setAttribute(Constant.allImagePostListShouldBeUpdated, true);
+                    HTTPUtil.getSession().setAttribute(Constant.allImagePostListShouldBeUpdated, true);
                     List<Post> posts = postDao.getByCategoryId(c.getId());
                     for (Post post : posts) {
                         post.setCategory(imageUncategory);
@@ -234,10 +235,10 @@ public class CategoryBean {
     }
 
     public List<Category> getTextCategory() {
-        if (Boolean.TRUE.equals(Context.staticGetSession().getAttribute(Constant.textCategoryListShouldBeUpdated))) {
+        if (Boolean.TRUE.equals( HTTPUtil.getSession().getAttribute(Constant.textCategoryListShouldBeUpdated))) {
             log.trace("获取最新文章分类列表");
             textCategory = categoryDao.findAllTextCategory();
-            Context.staticGetSession().setAttribute(Constant.textCategoryListShouldBeUpdated, false);
+            HTTPUtil.getSession().setAttribute(Constant.textCategoryListShouldBeUpdated, false);
         }
         return textCategory;
     }
@@ -247,10 +248,10 @@ public class CategoryBean {
     }
 
     public List<Category> getImageCategory() {
-        if (Boolean.TRUE.equals(Context.staticGetSession().getAttribute(Constant.imageCategoryListShouldBeUpdated))) {
+        if (Boolean.TRUE.equals( HTTPUtil.getSession().getAttribute(Constant.imageCategoryListShouldBeUpdated))) {
             log.trace("获取最新相册分类列表");
             imageCategory = categoryDao.findAllImageCategory();
-            Context.staticGetSession().setAttribute(Constant.imageCategoryListShouldBeUpdated, false);
+            HTTPUtil.getSession().setAttribute(Constant.imageCategoryListShouldBeUpdated, false);
         }
         return imageCategory;
     }

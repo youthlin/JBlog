@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by lin on 2016-09-08-008.
- * 文章列表
+ * 前台 文章列表
  */
 @ManagedBean
 @RequestScoped

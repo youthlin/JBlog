@@ -5,7 +5,9 @@ import com.youthlin.jblog.dao.CommentDao;
 import com.youthlin.jblog.dao.PostDao;
 import com.youthlin.jblog.model.Comment;
 import com.youthlin.jblog.model.Post;
+import com.youthlin.jblog.model.User;
 import com.youthlin.jblog.util.EJBUtil;
+import com.youthlin.jblog.util.HTTPUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +52,7 @@ public class CommentBean {
 
     public String comment() {
         Comment comment = new Comment();
-        comment.setAuthor(Context.staticGetCurrentUser());
+        comment.setAuthor((User) HTTPUtil.getSession().getAttribute(Constant.CURRENT_USER));
         comment.setContent(content);
         comment.setPublishDate(new Date());
         Post post = postDao.find(Post.class, postId);

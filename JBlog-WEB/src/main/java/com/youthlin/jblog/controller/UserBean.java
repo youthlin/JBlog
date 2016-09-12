@@ -4,6 +4,7 @@ import com.youthlin.jblog.constant.Constant;
 import com.youthlin.jblog.dao.UserDao;
 import com.youthlin.jblog.model.User;
 import com.youthlin.jblog.util.EJBUtil;
+import com.youthlin.jblog.util.HTTPUtil;
 import com.youthlin.jblog.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,19 +29,19 @@ public class UserBean {
     private UserDao dao = EJBUtil.getBean(UserDao.class);
     private User user = new User();
     private String loginMsg;
+    private User currentUser;
 
     public UserBean() {
         log.debug("构造UserBean");
-        Context.staticGetSession().setAttribute(Constant.ADMIN, dao.findAdmin());
+        HTTPUtil.getSession().setAttribute(Constant.ADMIN, dao.findAdmin());
     }
 
     public void validateUsername(FacesContext ctx, UIComponent ui, Object o) throws ValidatorException {
         String name = o.toString();
         User u = dao.findByUsername(name);
-        String usernameMsg;
         if (u != null) {
-            usernameMsg = "<span class='text-danger'>该用户名已被注册.</span>";
-            throw new ValidatorException(new FacesMessage("用户名不可用", usernameMsg));
+            throw new ValidatorException(new FacesMessage("用户名不可用",
+                    "<span class='text-danger'>该用户名已被注册.</span>"));
         }
     }
 
@@ -58,10 +59,8 @@ public class UserBean {
 
     public void validateEmail(FacesContext context, UIComponent uiComponent, Object o) throws ValidatorException {
         String email = o.toString();
-        String emailMsg = "";
         if (!email.matches("(\\w)+(\\.\\w+)*@(\\w)+((\\.\\w+)+)")) {
-            emailMsg = "请输入正确的邮箱";
-            throw new ValidatorException(new FacesMessage("邮箱格式不正确", emailMsg));
+            throw new ValidatorException(new FacesMessage("邮箱格式不正确", "请输入正确的邮箱"));
         }
     }
 
@@ -74,9 +73,10 @@ public class UserBean {
             user.setStatus((byte) 0);
         }
         user = dao.save(user);
-        Context.staticSetCurrentUser(user);
+        HTTPUtil.getSession().setAttribute(Constant.CURRENT_USER, user);
+        currentUser = user;
         if (admin == null) {
-            Context.staticGetSession().setAttribute(Constant.ADMIN, dao.findAdmin());
+            HTTPUtil.getSession().setAttribute(Constant.ADMIN, dao.findAdmin());
         }
         log.debug("调用注册方法完毕,User={}", user);
 
@@ -95,8 +95,8 @@ public class UserBean {
         if (u != null) {
             log.debug("登录成功");
             loginMsg = "";
-            Context.staticSetCurrentUser(user = u);
-
+            HTTPUtil.getSession().setAttribute(Constant.CURRENT_USER, user = u);
+            currentUser = user;
             return toReturnUrlIfNeeded();
         } else {
             log.debug("登录失败");
@@ -106,10 +106,10 @@ public class UserBean {
     }
 
     private String toReturnUrlIfNeeded() {
-        String url = (String) Context.staticGetSession().getAttribute(Constant.RETURN_URL);
+        String url = (String) HTTPUtil.getSession().getAttribute(Constant.RETURN_URL);
         if (url != null) {
             log.debug("return url={}", url);
-            Context.staticGetSession().setAttribute(Constant.RETURN_URL, null);
+            HTTPUtil.getSession().setAttribute(Constant.RETURN_URL, null);
             try {
                 ((HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse()).sendRedirect(url);
                 return url + "?faces-redirect=true";
@@ -121,8 +121,14 @@ public class UserBean {
     }
 
     public String logout() {
-        Context.staticSetCurrentUser(null);
+        HTTPUtil.getSession().setAttribute(Constant.CURRENT_USER, null);
+        currentUser = null;
         return "login";
+    }
+
+    public User getCurrentUser() {
+        //return (User) HTTPUtil.getSession().getAttribute(Constant.CURRENT_USER);
+        return currentUser;
     }
 
     //region //getter and setter
@@ -131,7 +137,7 @@ public class UserBean {
     }
 
     public User getAdmin() {
-        return (User) Context.staticGetSession().getAttribute(Constant.ADMIN);
+        return (User) HTTPUtil.getSession().getAttribute(Constant.ADMIN);
     }
 
     public void setUser(User user) {

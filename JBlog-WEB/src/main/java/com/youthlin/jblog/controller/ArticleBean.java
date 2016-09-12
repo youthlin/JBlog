@@ -8,6 +8,7 @@ import com.youthlin.jblog.model.Comment;
 import com.youthlin.jblog.model.Page;
 import com.youthlin.jblog.model.Post;
 import com.youthlin.jblog.util.EJBUtil;
+import com.youthlin.jblog.util.HTTPUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +40,7 @@ public class ArticleBean {
         String returnUrl = request.getParameter(Constant.RETURN_URL);
         if (returnUrl != null) {
             log.debug("return url = {}", returnUrl);
-            Context.staticGetSession().setAttribute(Constant.RETURN_URL, returnUrl);
+            HTTPUtil.getSession().setAttribute(Constant.RETURN_URL, returnUrl);
             return;
         }
         String strId = request.getParameter("id");
@@ -100,7 +101,7 @@ public class ArticleBean {
         String returnUrl = request.getParameter(Constant.RETURN_URL);
         log.debug("to login/register page return url={}", returnUrl);//"returnUrl"
         if (returnUrl != null) {
-            Context.staticGetSession().setAttribute(Constant.RETURN_URL, returnUrl);
+            HTTPUtil.getSession().setAttribute(Constant.RETURN_URL, returnUrl);
         }
     }
 

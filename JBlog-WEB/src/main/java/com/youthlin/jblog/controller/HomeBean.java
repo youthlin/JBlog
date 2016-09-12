@@ -1,8 +1,5 @@
 package com.youthlin.jblog.controller;
 
-import com.youthlin.jblog.dao.PostDao;
-import com.youthlin.jblog.model.Post;
-import com.youthlin.jblog.util.EJBUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

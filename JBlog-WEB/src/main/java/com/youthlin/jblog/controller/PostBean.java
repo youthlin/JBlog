@@ -7,6 +7,7 @@ import com.youthlin.jblog.model.Category;
 import com.youthlin.jblog.model.Post;
 import com.youthlin.jblog.model.User;
 import com.youthlin.jblog.util.EJBUtil;
+import com.youthlin.jblog.util.HTTPUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +21,7 @@ import java.util.Objects;
 
 /**
  * Created by lin on 2016-09-07-007.
- * 文章
+ * 管理界面 文章
  */
 @ManagedBean
 @SessionScoped
@@ -72,7 +73,7 @@ public class PostBean {
         } else {
             post.setStatus(Constant.POST_DRAFT);
         }
-        User admin = Context.staticGetCurrentUser();
+        User admin = (User) HTTPUtil.getSession().getAttribute(Constant.CURRENT_USER);
         post.setAuthor(admin);
         Category category = categoryDao.find(Category.class, categoryId);
         post.setCategory(category);
@@ -87,7 +88,7 @@ public class PostBean {
         clear();
         update();
         log.trace("分类下文章数目有变化，通知分类列表应该更新");
-        Context.staticGetSession().setAttribute(Constant.textCategoryListShouldBeUpdated, true);
+        HTTPUtil.getSession().setAttribute(Constant.textCategoryListShouldBeUpdated, true);
         return ALL_POST;
     }
 
@@ -124,7 +125,7 @@ public class PostBean {
             categoryDao.update(old);
             categoryDao.update(category);
             log.trace("分类下文章数目有变化，通知分类列表应该更新");
-            Context.staticGetSession().setAttribute(Constant.textCategoryListShouldBeUpdated, true);
+            HTTPUtil.getSession().setAttribute(Constant.textCategoryListShouldBeUpdated, true);
         }
         postDao.update(post);
         clear();
@@ -149,16 +150,16 @@ public class PostBean {
             postDao.update(post);
             update();
             log.trace("删除文章成功\n分类里文章数目有变化，通知分类列表应该更新");
-            Context.staticGetSession().setAttribute(Constant.textCategoryListShouldBeUpdated, true);
+            HTTPUtil.getSession().setAttribute(Constant.textCategoryListShouldBeUpdated, true);
         }
         return ALL_POST;
     }
 
     public List<Post> getAllTextPost() {
-        if (allTextPost == null || Boolean.TRUE.equals(Context.staticGetSession().getAttribute(Constant.allTextPostListShouldBeUpdated))) {
+        if (allTextPost == null || Boolean.TRUE.equals( HTTPUtil.getSession().getAttribute(Constant.allTextPostListShouldBeUpdated))) {
             log.trace("获取最新文章列表");
             allTextPost = postDao.getByType(Constant.POST_TYPE_TEXT);
-            Context.staticGetSession().setAttribute(Constant.allTextPostListShouldBeUpdated, false);
+            HTTPUtil.getSession().setAttribute(Constant.allTextPostListShouldBeUpdated, false);
         }
         return allTextPost;
     }

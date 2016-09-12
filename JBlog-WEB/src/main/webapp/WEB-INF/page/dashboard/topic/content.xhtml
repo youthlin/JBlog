@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+    <!--开始 概览-->
+    <script>$('.left-siderbar-topic').addClass('active');</script>
+    <h2>通知管理</h2>
+    <h:form styleClass="form-horizontal">
+        <div class="form-group">
+            <h:outputLabel for="text" styleClass="col-sm-2 control-label">发布通知</h:outputLabel>
+            <div class="col-sm-10">
+                <h:inputText type="text" class="form-control" id="text"
+                             value="#{messageBean.text}" p:placeholder="输入通知内容"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <p class="help-block">您可以在此处发布通知，但请注意，其他用户可以随时订阅或取消订阅您的通知。</p>
+                <h:commandButton action="#{messageBean.send}" value="发布" styleClass="btn btn-primary"/>
+            </div>
+        </div>
+    </h:form>
+</ui:composition>

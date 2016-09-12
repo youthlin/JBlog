@@ -5,7 +5,7 @@
     <ui:define name="title">撰写文章 - 仪表盘 | JBlog</ui:define>
     <ui:define name="content">
         <c:choose>
-            <c:when test="#{context.currentUser.status eq 0}">
+            <c:when test="#{userBean.currentUser.status eq 0}">
                 <!--0管理员 1访客 2删除-->
                 <ui:include src="/WEB-INF/page/dashboard/write/content.xhtml"/>
             </c:when>

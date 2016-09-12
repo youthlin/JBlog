@@ -13,8 +13,8 @@
             <h4>功能</h4>
             <ol class="list-unstyled">
                 <c:choose>
-                    <c:when test="#{context.currentUser != null}">
-                        <li>欢迎您, #{context.currentUser.username}</li>
+                    <c:when test="#{userBean.currentUser != null}">
+                        <li>欢迎您, #{userBean.currentUser.username}</li>
                         <li><h:link outcome="/dashboard/index" value="仪表盘"/></li>
                         <li><h:form><h:commandLink action="#{userBean.logout}" value="退出"/></h:form></li>
                     </c:when>
