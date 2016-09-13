@@ -5,7 +5,25 @@
                 xmlns:c="http://java.sun.com/jsp/jstl/core">
     <script>$('.left-siderbar-topic').addClass('active');</script>
     <h2>最近的通知</h2>
-    <c:forEach items="#{myTopicBean.messages}" var="msg">
-        <p>${msg.text}</p>
-    </c:forEach>
+    <c:choose>
+        <c:when test="#{myTopicBean.showTopic}">
+            <ol>
+                <c:forEach items="#{myTopicBean.messages}" var="msg">
+                    <li class="well">
+                        <p>${msg.text}</p>
+                        <div>${msg.getStringProperty("time")}</div>
+                    </li>
+                </c:forEach>
+            </ol>
+        </c:when>
+        <c:otherwise>
+            <div class="help-block">您已取消订阅管理员发布的通知。</div>
+        </c:otherwise>
+    </c:choose>
+    <h:form>
+        <div class="check-box pull-left"><label>
+            <h:selectBooleanCheckbox value="#{myTopicBean.showTopic}"/>订阅通知</label>
+        </div>
+        <h:commandButton value="更新" styleClass="btn btn-primary btn-xs" style="margin: 0 2%;"/>
+    </h:form>
 </ui:composition>

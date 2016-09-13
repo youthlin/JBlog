@@ -33,6 +33,7 @@ public class MyTopicBean implements MessageListener {
     private static final int MAX_COUNT = 5;
     private static int last = 0;
     private static TextMessage[] messages = new TextMessage[MAX_COUNT];
+    private boolean showTopic = true;
 
     @Override
     public void onMessage(Message message) {
@@ -71,5 +72,13 @@ public class MyTopicBean implements MessageListener {
             }
         }
         return list;
+    }
+
+    public boolean isShowTopic() {
+        return showTopic;
+    }
+
+    public void setShowTopic(boolean showTopic) {
+        this.showTopic = showTopic;
     }
 }

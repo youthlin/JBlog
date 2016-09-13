@@ -13,6 +13,9 @@ import javax.jms.TextMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Properties;
 
 /**
@@ -63,8 +66,10 @@ public class JMSUtil {
             MessageProducer producer = session.createProducer(destination);
             connection.start();
             TextMessage textMessage;
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.SIMPLIFIED_CHINESE);
             for (String msg : message) {
                 textMessage = session.createTextMessage(msg);
+                textMessage.setStringProperty("time", sdf.format(new Date()));
                 producer.send(textMessage);
                 log.trace("text msg has been send:{}", msg);
                 count++;
