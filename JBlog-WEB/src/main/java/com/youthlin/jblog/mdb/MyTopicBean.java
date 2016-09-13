@@ -46,7 +46,7 @@ public class MyTopicBean implements MessageListener {
                     last -= MAX_COUNT;
                 }
                 text = message1.getText();
-                log.debug("message = {},last={},array={}", text, last, Arrays.toString(messages));
+                //log.debug("message = {},last={},array={}", text, last, Arrays.toString(messages));
             } else {
                 text = message.toString();
                 log.debug("message.toString = {}", text);
@@ -58,7 +58,7 @@ public class MyTopicBean implements MessageListener {
     }
 
     public List<TextMessage> getMessages() {
-        log.debug("array={}", Arrays.toString(messages));
+        //log.debug("array={}", Arrays.toString(messages));
         List<TextMessage> list = new ArrayList<>(MAX_COUNT);
         int i;
         for (i = last; i >= 0; i--) {

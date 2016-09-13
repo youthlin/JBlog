@@ -9,15 +9,17 @@
             <c:forEach items="#{articleBean.comments.item}" var="comment">
                 <li class="well blog-post-comment-item">
                     <div class="blog-post-comment-item-cotent">${comment.content}</div>
-                    <div class="blog-post-meta blog-post-comment-item-meta">${comment.author.username}发表于${comment.publishDate}</div>
+                    <div class="blog-post-meta blog-post-comment-item-meta small">
+                        ${comment.author.username}发表于${comment.publishDate}
+                    </div>
                     <c:choose>
                         <c:when test="${comment.author.gravatar eq null}">
-                            <img class="blog-post-comment-item-gravatar" width="44" height="44"
+                            <img class="blog-post-comment-item-gravatar img-circle" width="44" height="44"
                                  src="http://gravatar.duoshuo.com/avatar/?s=44&amp;d=mm&amp;r=g"/>
                         </c:when>
                         <c:otherwise>
-                            <h:graphicImage styleClass="blog-post-comment-item-gravatar" width="44" height="44"
-                                            url="${comment.author.gravatar}"/>
+                            <h:graphicImage styleClass="blog-post-comment-item-gravatar img-circle"
+                                            width="44" height="44" url="${comment.author.gravatar}"/>
                         </c:otherwise>
                     </c:choose>
                 </li>

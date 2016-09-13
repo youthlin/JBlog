@@ -2,6 +2,7 @@ package com.youthlin.jblog.controller;
 
 import com.youthlin.jblog.constant.Constant;
 import com.youthlin.jblog.dao.UserDao;
+import com.youthlin.jblog.model.Post;
 import com.youthlin.jblog.model.User;
 import com.youthlin.jblog.util.EJBUtil;
 import com.youthlin.jblog.util.HTTPUtil;
@@ -17,6 +18,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by lin on 2016-09-01-001.
@@ -129,6 +132,43 @@ public class UserBean {
     public User getCurrentUser() {
         //return (User) HTTPUtil.getSession().getAttribute(Constant.CURRENT_USER);
         return currentUser;
+    }
+
+    public boolean liked(Post post) {
+        List<Post> list = currentUser.getLikedPost();
+        log.debug("判断是否收藏");
+        if (list != null) {
+            for (Post p : list) {
+                if (p.getId().equals(post.getId())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void like(Post post) {
+        List<Post> list = getCurrentUser().getLikedPost();
+        if (liked(post)) {
+            log.debug("list size={}", currentUser.getLikedPost().size());
+            log.debug("[{}]取消收藏《{}》", currentUser.getUsername(), post.getTitle());
+            Iterator<Post> it = list.iterator();
+            while (it.hasNext()) {
+                Post p = it.next();
+                if (p.getId().equals(post.getId())) {
+                    it.remove();
+                }
+            }
+            currentUser = dao.update(currentUser);
+            log.debug("list size={}", currentUser.getLikedPost().size());
+        } else {
+            log.debug("[{}]收藏文章《{}》", currentUser.getUsername(), post.getTitle());
+            if (list != null) {
+                list.add(post);
+                currentUser = dao.update(currentUser);
+            }
+        }
+        HTTPUtil.getSession().setAttribute(Constant.CURRENT_USER, currentUser);
     }
 
     //region //getter and setter
