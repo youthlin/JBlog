@@ -15,7 +15,7 @@
                     <c:choose>
                         <c:when test="${comment.author.gravatar eq null}">
                             <img class="blog-post-comment-item-gravatar img-circle" width="44" height="44"
-                                 src="http://gravatar.duoshuo.com/avatar/?s=44&amp;d=mm&amp;r=g"/>
+                                 src="http://gravatar.duoshuo.com/avatar/#{userBean.emailHash}?s=44&amp;d=mm&amp;r=g"/>
                         </c:when>
                         <c:otherwise>
                             <h:graphicImage styleClass="blog-post-comment-item-gravatar img-circle"

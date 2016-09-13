@@ -16,6 +16,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Iterator;
@@ -33,6 +34,7 @@ public class UserBean {
     private User user = new User();
     private String loginMsg;
     private User currentUser;
+    private String emailMsg;
 
     public UserBean() {
         log.debug("构造UserBean");
@@ -134,6 +136,7 @@ public class UserBean {
         return currentUser;
     }
 
+    /*判断用户是否收藏了该文章*/
     public boolean liked(Post post) {
         List<Post> list = currentUser.getLikedPost();
         log.debug("判断是否收藏");
@@ -147,6 +150,7 @@ public class UserBean {
         return false;
     }
 
+    /*收藏或取消收藏该文章*/
     public void like(Post post) {
         List<Post> list = getCurrentUser().getLikedPost();
         if (liked(post)) {
@@ -171,6 +175,10 @@ public class UserBean {
         HTTPUtil.getSession().setAttribute(Constant.CURRENT_USER, currentUser);
     }
 
+    public String getEmailHash() {
+        return StringUtil.md5(currentUser.getEmail());
+    }
+
     //region //getter and setter
     public User getUser() {
         return user;
@@ -190,6 +198,51 @@ public class UserBean {
 
     public void setLoginMsg(String loginMsg) {
         this.loginMsg = loginMsg;
+    }
+
+    public void update() {
+        HttpServletRequest request = HTTPUtil.getRequest();
+        String email = request.getParameter("email");
+        String oldPassword = request.getParameter("old-password");
+        String newPassword = request.getParameter("new-password");
+        boolean e = false;
+        boolean newpass = false;
+        boolean modified = true;
+        if (email != null) {
+            if (email.equals(currentUser.getEmail())) {
+                emailMsg = "";
+            } else if (email.matches("(\\w)+(\\.\\w+)*@(\\w)+((\\.\\w+)+)")) {
+                e = true;
+                currentUser.setEmail(email);
+                currentUser = dao.update(currentUser);
+                emailMsg = "邮箱已修改.";
+            } else {
+                emailMsg += "email 未指定或格式不正确.";
+            }
+        } else {
+            emailMsg = "email 未指定或格式不正确.";
+        }
+        if (oldPassword == null || oldPassword.length() != 32 || newPassword == null || newPassword.length() != 32) {
+            modified = false;
+        }
+        if (modified && oldPassword.equals(currentUser.getPassword()) && !oldPassword.equals(newPassword)) {
+            newpass = true;
+            currentUser.setPassword(newPassword);
+            emailMsg += "密码已修改.";
+        }
+        if (!newpass) {
+            emailMsg += "密码没有修改.";
+        }
+
+        if (e || newpass) {
+            currentUser = dao.update(currentUser);
+        }
+    }
+
+    public String getEmailMsg() {
+        String m = emailMsg;
+        emailMsg = "";
+        return m;
     }
 
     //endregion

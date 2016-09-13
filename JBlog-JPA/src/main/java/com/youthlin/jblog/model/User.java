@@ -2,7 +2,6 @@ package com.youthlin.jblog.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,7 +37,7 @@ public class User implements Serializable {
     private List<Post> posts = new ArrayList<>();       //发表的文章或照片
     @OneToMany(mappedBy = "author")     //mappedBy的值是对方引用本实体的属性名
     private List<Comment> comments = new ArrayList<>(); //发表的评论
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private List<Post> likedPost = new ArrayList<>();   //收藏的图文
 
     @Override

@@ -1,6 +1,105 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:c="http://java.sun.com/jsp/jstl/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h2>个人中心</h2>
+    <hr/>
+    <h:form styleClass="form-horizontal well" id="profile-form">
+        <div class="text-danger help-block col-sm-offset-2">#{userBean.emailMsg}</div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" style="padding-top: 0;">
+                <img class="img-circle" width="44" height="44"
+                     src="http://gravatar.duoshuo.com/avatar/#{userBean.emailHash}?s=44&amp;d=mm&amp;r=g"/>
+            </label>
+            <div class="col-sm-10" style="height: 44px;line-height: 44px;">
+                头像由电子邮件生成
+                <a href="#" tabindex="0" data-toggle="popover" class="btn"
+                   data-trigger="focus" title="如何设置 Gravatar 头像" data-html="true"
+                   data-content="Gravatar - 全球公认的头像&lt;br/&gt;只需&lt;a href='https://cn.gravatar.com/' target='_blank'&gt;点击&lt;/a&gt;使用邮箱进行注册就可以在全世界任何支持 Gravatar 的网站显示您的头像！">
+                    如何设置 Gravatar 头像
+                </a>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">用&#160;&#160;户&#160;&#160;名</label>
+            <div class="col-sm-10">
+                <p class="form-control-static" title="用户名不可更改">#{userBean.currentUser.username} (用户名不可更改)</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="profile-email" class="col-sm-2 control-label">电子邮件</label>
+            <div class="col-sm-10">
+                <input type="email" id="profile-email" name="email" class="form-control"
+                       value="#{userBean.currentUser.email}"/>
+            </div>
+        </div>
+
+        <p class="help-block col-sm-offset-2">若不需更改密码，以下两栏请留空</p>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="old-password-plain">原&#160;&#160;密&#160;&#160;码</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="password" minlength="8" id="old-password-plain" placeholder="输入原密码"/>
+                <input type="hidden" id="old-password" name="old-password"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="new-password-plain">新&#160;&#160;密&#160;&#160;码</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="password" minlength="8" id="new-password-plain"
+                       placeholder="大于8位,含字母与数字"/>
+                <input type="hidden" id="new-password" name="new-password"/>
+            </div>
+        </div>
+        <input type="hidden" id="username" value="#{userBean.currentUser.username}"/>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <h:commandLink styleClass="btn btn-default" value="更新" action="#{userBean.update}">
+                    <f:ajax render="profile-form"/>
+                </h:commandLink>
+            </div>
+        </div>
+
+        <!--
+        弹出框（Popover）插件不像之前所讨论的下拉菜单及其他插件那样，它不是纯 CSS 插件。
+        如需使用该插件，您必须使用 jquery 激活它（读取 javascript）。
+        使用下面的脚本来启用页面中的所有的弹出框（popover）：
+        -->
+        <script>
+            //<![CDATA[
+            $(function () {
+                //初始化弹出框
+                $("[data-toggle='popover']").popover();
+                //监听密码输入
+                var username = $('#username').val();
+                var oldPassPlain = $('#old-password-plain');
+                var newPassPlain = $('#new-password-plain');
+                var oldPass = $('#old-password');
+                var newPass = $('#new-password');
+                var check = function (e) {
+                    if (/^.*[a-zA-Z]+.*$/.test(e)) {
+                        return (/^.*[0-9]+.*$/.test(e));
+                    }
+                    return false;
+                };
+                oldPassPlain.bind('input propertychange', function () {
+                    var password = oldPassPlain.val();
+                    if (password.length >= 8 && check(password)) {
+                        oldPass.val($.md5(username + password));
+                    } else {
+                        newPass.val('');
+                    }
+                });
+                newPassPlain.bind('input propertychange', function () {
+                    var password = newPassPlain.val();
+                    if (password.length >= 8 && check(password)) {
+                        newPass.val($.md5(username + password));
+                    } else {
+                        newPass.val('');
+                    }
+                });
+            });
+            //]]>
+        </script>
+    </h:form>
 
 </ui:composition>
