@@ -107,7 +107,7 @@ public class ArticleBean {
 
 
     public Post getPost() {
-        return post;
+        return post != null ? post : new Post();
     }
 
     public long getPrevId() {

@@ -6,6 +6,9 @@ import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lin on 2016-09-08-008.
@@ -39,5 +42,15 @@ public class SettingsDaoImpl extends BaseDaoImpl<Settings, Long> implements com.
             s.setValue(value);
             em.persist(s);
         }
+    }
+
+    @Override
+    public Map<String, String> findAll() {
+        Map<String, String> map = new HashMap<>();
+        List<Settings> list = findAll(Settings.class);
+        for (Settings settings : list) {
+            map.put(settings.getName(), settings.getValue());
+        }
+        return map;
     }
 }

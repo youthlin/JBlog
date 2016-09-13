@@ -4,7 +4,7 @@
     <div class="col-sm-3 col-md-2 sidebar">
 
         <ul class="nav nav-sidebar">
-            <li class="left-siderbar-overview"><a href="#">概览</a></li>
+            <li class="left-siderbar-overview"><h:link outcome="/dashboard/index" value="概览"/></li>
         </ul>
 
         <c:if test="#{userBean.currentUser.status eq 0}">
@@ -35,7 +35,7 @@
 
         <c:if test="#{userBean.currentUser.status eq 0}">
             <ul class="nav nav-sidebar">
-                <li class="left-siderbar-setting"><a href="#">设置</a></li>
+                <li class="left-siderbar-settings"><h:link outcome="/dashboard/settings" value="设置"/></li>
             </ul>
         </c:if>
     </div>
