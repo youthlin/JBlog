@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h2>收藏的文章</h2>
+    <style>
+        li.li-well {
+            margin: 5px;
+            padding: 5px;
+        }
+
+        li a.li-well-a {
+            width: 100%;
+            display: inline-block;
+            padding: 0 2%;
+        }
+    </style>
+    <ol class="well">
+        <c:forEach items="#{userBean.currentUser.likedPost}" var="post">
+            <li class="well li-well"><h:link styleClass="li-well-a" outcome="/article?id=${post.id}"
+                                             value="${post.title}"/></li>
+        </c:forEach>
+    </ol>
+</ui:composition>

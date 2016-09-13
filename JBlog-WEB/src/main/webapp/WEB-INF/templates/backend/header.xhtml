@@ -17,12 +17,13 @@
                 <h:form>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">欢迎您, #{userBean.currentUser.username}
+                            <a href="#" class="dropdown-toggle"
+                               data-toggle="dropdown">欢迎您, #{userBean.currentUser.username}
                                 <span class="caret"/></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#">个人资料</a></li>
                                 <li class="divider"/>
-                                <li><a href="#">文章收藏</a></li>
+                                <li><h:link outcome="like" value="文章收藏"/></li>
                                 <li><a href="#">照片收藏</a></li>
                             </ul>
                         </li>
