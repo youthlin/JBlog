@@ -104,13 +104,14 @@ public class PostDaoImpl extends BaseDaoImpl<Post, Long> implements PostDao {
         query.setFirstResult((pageStart - 1) * pageSize);
         query.setMaxResults(pageSize);
         List<Post> posts = query.getResultList();
-        Query q = em.createQuery("select count(p.id) from Post as p where p.status<>2 and p.type=:type");
+        Query q = em.createQuery("select count(p.id) from Post as p where p.status=0 and p.type=:type");
         q.setParameter("type", type);
         Integer count;
         try {
-            count = (Integer) q.getSingleResult();
+            count = Math.toIntExact((Long) q.getSingleResult());
         } catch (Exception e) {
             count = 1;
+            e.printStackTrace();
         }
         count = count / pageSize + 1;
         Page<Post> page = new Page<>();
@@ -120,6 +121,7 @@ public class PostDaoImpl extends BaseDaoImpl<Post, Long> implements PostDao {
         if (posts != null && posts.size() > 0) {
             page.setItem(posts);
         }
+        log.debug("post page = {}", page);
         return page;
     }
 

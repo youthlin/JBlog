@@ -58,12 +58,14 @@ public class CommentBean {
         Post post = postDao.find(Post.class, postId);
         log.debug("post id = {}", post.getId());
         comment.setPost(post);
+        post.setCommentCount(post.getCommentCount() + 1);
+        postDao.update(post);
         commentDao.save(comment);
 
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpServletRequest request = HTTPUtil.getRequest();
         try {
-            ((HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse())
-                    .sendRedirect(request.getServletContext().getContextPath() + "/article.xhtml?id=" + postId);
+            HTTPUtil.getResponse().sendRedirect(request.getServletContext().getContextPath()
+                    + "/article.xhtml?id=" + postId);
         } catch (IOException e) {
             e.printStackTrace();
         }
