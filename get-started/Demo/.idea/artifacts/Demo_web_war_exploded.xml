@@ -1,0 +1,27 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Demo-web:war exploded">
+    <output-path>$PROJECT_DIR$/Demo-web/target/Demo-web</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Demo-web" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="archive" name="Demo-ejb-api-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="Demo-ejb-api" />
+          </element>
+          <element id="archive" name="Demo-jpa-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="Demo-jpa" />
+          </element>
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.21" />
+          <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.1.7" />
+          <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.1.7" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/Demo-web/target/Demo-web/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="Demo-web/web/Web" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-deployment-structure>
+    <ear-subdeployments-isolated>false</ear-subdeployments-isolated>
+    <deployment>
+        <!--Exclusions allow you to prevent the server from automatically adding some dependencies-->
+        <exclusions>
+            <module name="org.slf4j"/>
+            <module name="org.slf4j.ext"/>
+            <module name="org.slf4j.impl"/>
+            <module name="org.slf4j.jcl-over-slf4j"/>
+        </exclusions>
+    </deployment>
+</jboss-deployment-structure>

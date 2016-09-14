@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Demo</title>
+</h:head>
+<body>
+<h:form>
+    <h:inputText value="#{userBean.name}"/>
+    <h:commandButton action="#{userBean.save}" value="添加"/>
+</h:form>
+<ul id="list">
+    <c:forEach items="#{userBean.users}" var="user">
+        <li>${user.name}</li>
+    </c:forEach>
+</ul>
+</body>
+</html>

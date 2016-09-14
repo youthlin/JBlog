@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence>
+    <persistence-unit name="demo" transaction-type="JTA">
+        <!-- 直接用数据源。不用数据源而在 properties 里指定连接的话可以连接但 persist 的对象不会同步到数据库 -->
+        <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+        <!-- 不需要指定 provider-->
+        <!--<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!--<property name="hibernate.format_sql" value="true"/>-->
+        </properties>
+    </persistence-unit>
+</persistence>
