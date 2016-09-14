@@ -52,7 +52,7 @@ public class ArticleBean {
         }
         if (id != -1) {
             post = postDao.find(Post.class, id);
-            if (post == null) {
+            if (post == null || post.getStatus().equals(Constant.POST_DELETED)) {
                 log.debug("未找到id={}对应的文章", id);
                 post = postDao.getNewestText();
             }

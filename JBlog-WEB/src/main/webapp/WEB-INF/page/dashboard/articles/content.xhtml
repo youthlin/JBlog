@@ -27,7 +27,7 @@
                 <c:set var="index" value="${index+1}"/>
                 <tr>
                     <td>${index}</td>
-                    <td>${text.title}</td>
+                    <td><h:link outcome="/article?id=${text.id}" value="${text.title}"/></td>
                     <td>${text.author.username}</td>
                     <td>${text.category.name}</td>
                     <td>
