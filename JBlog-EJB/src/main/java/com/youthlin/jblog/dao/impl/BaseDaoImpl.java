@@ -21,10 +21,15 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable> implem
     @PersistenceContext(unitName = "jblog")
     protected EntityManager em;
 
+    private void flush() {
+        em.flush();
+    }
+
     @Override
     public T save(T entity) {
         log.debug("save {}", entity);
         em.persist(entity);
+        flush();
         return entity;
     }
 
@@ -32,6 +37,7 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable> implem
     public T delete(T entity) {
         log.debug("delete {}", entity);
         em.remove(entity);
+        flush();
         return entity;
     }
 
@@ -40,6 +46,7 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable> implem
         log.debug("delete: class={},id={}", clazz, primaryKey);
         T entity = em.find(clazz, primaryKey);
         em.remove(entity);
+        flush();
         return entity;
     }
 
@@ -47,6 +54,7 @@ public class BaseDaoImpl<T extends Serializable, PK extends Serializable> implem
     public T update(T entity) {
         log.debug("update {}", entity);
         em.merge(entity);
+        flush();
         return entity;
     }
 

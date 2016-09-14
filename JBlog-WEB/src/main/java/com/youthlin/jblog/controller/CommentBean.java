@@ -50,7 +50,7 @@ public class CommentBean {
         }
     }
 
-    public void comment() {
+    public String comment() {
         Comment comment = new Comment();
         comment.setAuthor((User) HTTPUtil.getSession().getAttribute(Constant.CURRENT_USER));
         comment.setContent(content);
@@ -60,16 +60,11 @@ public class CommentBean {
         comment.setPost(post);
         comment = commentDao.save(comment);
         log.debug("发表评论成功,comment={},post comment count = {}", comment.getContent(), comment.getPost().getCommentCount());
+        post = postDao.update(comment.getPost());
+        log.trace("update comment post {}", post.getCommentCount());
         //评论数量有变
         HTTPUtil.getSession().setAttribute(Constant.allTextPostListShouldBeUpdated, true);
-        HttpServletRequest request = HTTPUtil.getRequest();
-        try {
-            HTTPUtil.getResponse().sendRedirect(request.getServletContext().getContextPath()
-                    + "/article.xhtml?id=" + postId);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //return "article";
+        return "article?id=" + post.getId() + "&faces-redirect=true";
     }
 
     public String getContent() {

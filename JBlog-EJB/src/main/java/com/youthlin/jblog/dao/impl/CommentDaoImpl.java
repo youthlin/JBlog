@@ -24,8 +24,14 @@ public class CommentDaoImpl extends BaseDaoImpl<Comment, Long> implements Commen
         if (count != null) {
             p.setCommentCount(count + 1);
         }
+        p = em.merge(p);
+        em.flush();
         entity.setPost(p);
-        return super.save(entity);
+        Comment comment = super.save(entity);
+        em.flush();
+        System.out.println("dao发表评论成功:" + comment.getContent() + p.getId()
+                + comment.getAuthor().getUsername() + p.getCommentCount());
+        return comment;
     }
 
     @Override
