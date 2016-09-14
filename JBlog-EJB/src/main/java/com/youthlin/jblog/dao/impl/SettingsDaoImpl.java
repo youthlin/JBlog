@@ -40,7 +40,7 @@ public class SettingsDaoImpl extends BaseDaoImpl<Settings, Long> implements com.
             s = new Settings();
             s.setName(name);
             s.setValue(value);
-            em.persist(s);
+            em.merge(s);
         }
     }
 

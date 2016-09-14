@@ -2,30 +2,57 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
-    <div class="blog-comment-list">
-        <h4 class="well">评论列表</h4>
+                xmlns:p="http://xmlns.jcp.org/jsf/passthrough" xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form styleClass="blog-comment-list" id="blog-comment-list">
+        <h4 class="well">评论列表
+            <small>(+#{articleBean.post.commentCount} 条评论)</small>
+        </h4>
         <ol>
             <c:forEach items="#{articleBean.comments.item}" var="comment">
                 <li class="well blog-post-comment-item">
-                    <div class="blog-post-comment-item-cotent">${comment.content}</div>
+                    <div class="blog-post-comment-item-cotent">
+                        <h:outputText escape="false" value="${comment.content}"/>
+                    </div>
                     <div class="blog-post-meta blog-post-comment-item-meta small">
                         ${comment.author.username}发表于${comment.publishDate}
                     </div>
-                    <c:choose>
-                        <c:when test="${comment.author.gravatar eq null}">
-                            <img class="blog-post-comment-item-gravatar img-circle" width="44" height="44"
-                                 src="http://gravatar.duoshuo.com/avatar/#{userBean.emailHash}?s=44&amp;d=mm&amp;r=g"/>
-                        </c:when>
-                        <c:otherwise>
-                            <h:graphicImage styleClass="blog-post-comment-item-gravatar img-circle"
-                                            width="44" height="44" url="${comment.author.gravatar}"/>
-                        </c:otherwise>
-                    </c:choose>
+                    <img class="blog-post-comment-item-gravatar img-circle" width="44" height="44"
+                         src="http://gravatar.duoshuo.com/avatar/#{userBean.getHashByEmail(comment.author.email)}?s=44&amp;d=mm&amp;r=g"/>
                 </li>
             </c:forEach>
         </ol>
-    </div>
+        <ul class="pager">
+            <c:choose>
+                <c:when test="#{articleBean.comments.pageIndex gt 1}">
+                    <li>
+                        <h:commandLink value="上一页" outcome="article">
+                            <f:param name="id" value="#{articleBean.post.id}"/>
+                            <f:param name="c-page" value="#{articleBean.comments.pageIndex-1}"/>
+                            <f:ajax render="blog-comment-list"/>
+                        </h:commandLink>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li><span>上一页</span></li>
+                </c:otherwise>
+            </c:choose>
+            #{articleBean.comments.pageIndex} / #{articleBean.comments.pageTotal}
+            <c:choose>
+                <c:when test="#{articleBean.comments.pageIndex lt articleBean.comments.pageTotal}">
+                    <li>
+                        <h:commandLink value="下一页" outcome="article">
+                            <f:param name="id" value="#{articleBean.post.id}"/>
+                            <f:param name="c-page" value="#{articleBean.comments.pageIndex+1}"/>
+                            <f:ajax render="blog-comment-list"/>
+                        </h:commandLink>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li><span>下一页</span></li>
+                </c:otherwise>
+            </c:choose>
+        </ul>
+    </h:form>
     <div class="well">
         <c:choose>
             <c:when test="#{userBean.currentUser == null}">

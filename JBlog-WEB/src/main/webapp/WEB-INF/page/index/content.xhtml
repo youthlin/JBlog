@@ -24,10 +24,11 @@
                         <div class="blog-post-content">
                             <c:choose>
                                 <c:when test="#{postBean.newestText.content.length() lt 200}">
-                                    #{postBean.newestText.content}
+                                    <h:outputText escape="false" value="#{postBean.newestText.content}"/>
                                 </c:when>
                                 <c:otherwise>
-                                    #{postBean.newestText.content.substring(0,200)}
+                                    <h:outputText escape="false"
+                                                  value="#{postBean.newestText.content.substring(0,200)}"/>
                                 </c:otherwise>
                             </c:choose>
                         </div>

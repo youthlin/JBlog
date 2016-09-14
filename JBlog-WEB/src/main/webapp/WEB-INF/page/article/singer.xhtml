@@ -12,10 +12,11 @@
                     <div class="blog-post-meta well small" style="padding: 2%;">
                         作者：<span class="blog-post-publish-author">#{articleBean.post.author.username}</span> |
                         发表于：<span class="blog-post-publish-date">#{articleBean.post.publishDate}</span> |
-                        分类：<span class="blog-post-publish-category">#{articleBean.post.category.name}</span>
+                        分类：<span class="blog-post-publish-category">#{articleBean.post.category.name}</span> |
+                        +#{articleBean.post.hint} 浏览
                     </div>
                     <div class="blog-post-content">
-                        #{articleBean.post.content}
+                        <h:outputText escape="false" value="#{articleBean.post.content}"/>
                     </div><!-- /.blog-post-content -->
                 </div><!-- /.blog-post -->
 

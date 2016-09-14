@@ -15,6 +15,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -38,7 +39,7 @@ public class PostBean {
     private Boolean allowComment = true;
     private Post newestText;
     private Post newestImage;
-    private List<Post> allTextPost;
+    private List<Post> allTextPost = new ArrayList<>();
     private Long id = 0L;
 
     public PostBean() {
@@ -50,7 +51,7 @@ public class PostBean {
         log.trace("获取最新POST");
         newestText = postDao.getNewestText();
         newestImage = postDao.getNewestImage();
-        allTextPost = null;
+        allTextPost.clear();
     }
 
     private void clear() {
@@ -85,6 +86,7 @@ public class PostBean {
         } else {
             log.debug("保存草稿成功");
         }
+        HTTPUtil.getSession().setAttribute(Constant.allTextPostListShouldBeUpdated, true);
         clear();
         update();
         log.trace("分类下文章数目有变化，通知分类列表应该更新");
@@ -156,7 +158,7 @@ public class PostBean {
     }
 
     public List<Post> getAllTextPost() {
-        if (allTextPost == null || Boolean.TRUE.equals( HTTPUtil.getSession().getAttribute(Constant.allTextPostListShouldBeUpdated))) {
+        if (allTextPost.size() == 0 || Boolean.TRUE.equals(HTTPUtil.getSession().getAttribute(Constant.allTextPostListShouldBeUpdated))) {
             log.trace("获取最新文章列表");
             allTextPost = postDao.getByType(Constant.POST_TYPE_TEXT);
             HTTPUtil.getSession().setAttribute(Constant.allTextPostListShouldBeUpdated, false);

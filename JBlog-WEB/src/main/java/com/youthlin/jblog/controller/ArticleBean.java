@@ -57,33 +57,43 @@ public class ArticleBean {
                 post = postDao.getNewestText();
             }
         } else post = postDao.getNewestText();
+        if (post != null) {
+            //浏览量加一
+            log.trace("《{}》浏览量加一,comment count = {}", post.getTitle(), post.getCommentCount());
+            post.setHint(post.getHint() + 1);
+            postDao.update(post);
+        }
         long[] prevAndNextId = postDao.getPrevAndNextId(post);
         prevId = prevAndNextId[0];
         nextId = prevAndNextId[1];
 
-        int commentPage = 1;
         String strCommentPage = request.getParameter("c-page");
+        int commentPage = 1;
         if (strCommentPage != null) {
             try {
                 commentPage = Integer.parseInt(strCommentPage);
             } catch (Exception e) {
                 log.debug("参数错误，c-page参数只接受数字，表示评论第几页");
+                commentPage = 1;
             }
         }
 
         int commentCountPerPage = 5;
-        String strCommentSize = settingsDao.get(Constant.SETTINGS_COMMENT_COUNT_PER_PAGE);
-        if (strCommentSize == null) {
-            settingsDao.add(Constant.SETTINGS_COMMENT_COUNT_PER_PAGE, Constant.SETTINGS_COMMENT_COUNT_PER_PAGE_DEFAULT);
-        } else {
-            try {
-                commentCountPerPage = Integer.parseInt(strCommentSize);
-            } catch (Exception e) {
-                log.debug("参数错误，c-page参数只接受数字，表示评论第几页");
-            }
-        }
+//        String strCommentSize = settingsDao.get(Constant.SETTINGS_COMMENT_COUNT_PER_PAGE);
+//        if (strCommentSize == null) {
+//            //javax.persistence.TransactionRequiredException:
+//            //WFLYJPA0060: Transaction is required to perform this operation
+//            //(either use a transaction or extended persistence context)
+//            settingsDao.add(Constant.SETTINGS_COMMENT_COUNT_PER_PAGE, Constant.SETTINGS_COMMENT_COUNT_PER_PAGE_DEFAULT);
+//        } else {
+//            try {
+//                commentCountPerPage = Integer.parseInt(strCommentSize);
+//            } catch (Exception e) {
+//                log.debug("参数错误，c-page参数只接受数字，表示评论第几页");
+//            }
+//        }
         comments = commentDao.findPageByPostId(post.getId(), commentPage, commentCountPerPage);
-
+        log.debug("comment page = {}", comments);
     }
 
     public String toLogin() {

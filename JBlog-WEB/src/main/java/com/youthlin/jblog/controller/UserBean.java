@@ -176,7 +176,14 @@ public class UserBean {
     }
 
     public String getEmailHash() {
-        return StringUtil.md5(currentUser.getEmail());
+        if (currentUser != null) {
+            return StringUtil.md5(currentUser.getEmail());
+        }
+        return "";
+    }
+
+    public String getHashByEmail(String email) {
+        return StringUtil.md5(email);
     }
 
     //region //getter and setter

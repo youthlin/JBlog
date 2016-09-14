@@ -48,6 +48,7 @@ public class PostDaoImpl extends BaseDaoImpl<Post, Long> implements PostDao {
     @Override
     public List<Post> getByType(String type) {
         log.debug("获取类型Post");
+        em.flush();
         TypedQuery<Post> query = em.createQuery("select p from Post as p where p.type=:type and p.status<>2", Post.class);
         query.setParameter("type", type);
         return query.getResultList();

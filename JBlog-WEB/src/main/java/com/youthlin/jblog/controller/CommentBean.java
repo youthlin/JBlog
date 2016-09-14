@@ -50,18 +50,18 @@ public class CommentBean {
         }
     }
 
-    public String comment() {
+    public void comment() {
         Comment comment = new Comment();
         comment.setAuthor((User) HTTPUtil.getSession().getAttribute(Constant.CURRENT_USER));
         comment.setContent(content);
         comment.setPublishDate(new Date());
         Post post = postDao.find(Post.class, postId);
-        log.debug("post id = {}", post.getId());
+        log.debug("comment post id = {}", post.getId());
         comment.setPost(post);
-        post.setCommentCount(post.getCommentCount() + 1);
-        postDao.update(post);
-        commentDao.save(comment);
-
+        comment = commentDao.save(comment);
+        log.debug("发表评论成功,comment={},post comment count = {}", comment.getContent(), comment.getPost().getCommentCount());
+        //评论数量有变
+        HTTPUtil.getSession().setAttribute(Constant.allTextPostListShouldBeUpdated, true);
         HttpServletRequest request = HTTPUtil.getRequest();
         try {
             HTTPUtil.getResponse().sendRedirect(request.getServletContext().getContextPath()
@@ -69,8 +69,7 @@ public class CommentBean {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return "article";
+        //return "article";
     }
 
     public String getContent() {

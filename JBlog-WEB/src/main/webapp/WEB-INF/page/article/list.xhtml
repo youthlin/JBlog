@@ -17,7 +17,16 @@
                     分类：<span class="blog-post-publish-category">${post.category.name}</span>
                 </div>
                 <div class="blog-post-content">
-                    ${post.content}
+                    <c:choose>
+                        <c:when test="#{post.content.length() lt 200}">
+                            <h:outputText escape="false" value="#{post.content}"/>
+                        </c:when>
+                        <c:otherwise>
+                            <h:outputText escape="false"
+                                          value="#{post.content.substring(0,200)} ..."/>
+                            <h:link outcome="/article?id=${post.id}" value=" [阅读全文]"/>
+                        </c:otherwise>
+                    </c:choose>
                 </div><!-- /.blog-post-content -->
             </div><!-- /.blog-post -->
         </c:forEach>
